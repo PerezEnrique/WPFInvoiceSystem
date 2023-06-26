@@ -7,7 +7,7 @@ using WPFInvoiceSystem.Domain.Entities;
 
 namespace WPFInvoiceSystem.Domain.Repositories
 {
-    interface IPaymentsRepository : IBaseRepository<Payment>
+    public interface IPaymentsRepository : IBaseRepository<Payment>
     {
         Task<Payment?> GetWithBankAndPaymentMethod(int id);
     }
