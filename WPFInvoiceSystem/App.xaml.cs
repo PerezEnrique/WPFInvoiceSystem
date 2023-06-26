@@ -1,5 +1,7 @@
 ﻿using Prism.Ioc;
 using System.Windows;
+using WPFInvoiceSystem.Utils.Constants;
+using WPFInvoiceSystem.ViewModels;
 using WPFInvoiceSystem.Views;
 
 namespace WPFInvoiceSystem
@@ -16,7 +18,8 @@ namespace WPFInvoiceSystem
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry
+                .RegisterForNavigation<InvoicesListView, InvoicesListViewModel>(name: ViewNames.InvoicesListView);
         }
     }
 }
