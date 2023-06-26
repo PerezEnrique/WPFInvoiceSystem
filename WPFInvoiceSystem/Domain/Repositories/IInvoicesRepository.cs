@@ -14,6 +14,5 @@ namespace WPFInvoiceSystem.Domain.Repositories
         Task<Invoice?> GetByInvoiceNumber(int invoiceNumber);
         Task<Invoice?> GetByInvoiceNumberWithRelatedData(int invoiceNumber);
         Task<Invoice?> GetWithRelatedData(int id);
-        Task<Invoice?> GetWithPayments(int id);
     }
 }

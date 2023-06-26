@@ -12,11 +12,8 @@ namespace WPFInvoiceSystem.Persistance.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         public AppDbContext Connection { get; private set; }
-        public IBanksRepository BanksRepository { get; private set; }
         public ICustomersRepository CustomersRepository { get; private set; }
         public IInvoicesRepository InvoicesRepository { get; private set; }
-        public IPaymentsRepository PaymentsRepository { get; private set; }
-        public IPaymentMethodsRepository PaymentMethodsRepository { get; private set; }
         public IServicesRepository ServicesRepository { get; private set; }
         public IServiceTypesRepository ServiceTypesRepository { get; private set; }
 
@@ -40,11 +37,8 @@ namespace WPFInvoiceSystem.Persistance.Repositories
         {
             var repositorioesMap = new Dictionary<Type, object>
             {
-                { typeof(Bank), BanksRepository},
                 { typeof(Customer), CustomersRepository },
                 { typeof(Invoice), InvoicesRepository },
-                { typeof(Payment), PaymentsRepository },
-                { typeof(PaymentMethod), PaymentMethodsRepository },
                 { typeof(Service), ServicesRepository },
                 { typeof(ServiceType), ServiceTypesRepository },
             };
@@ -55,11 +49,8 @@ namespace WPFInvoiceSystem.Persistance.Repositories
         private void Initialize()
         {
             Connection = new AppDbContext();
-            BanksRepository = new BanksRepository(Connection);
             CustomersRepository = new CustomersRepository(Connection);
             InvoicesRepository = new InvoicesRepository(Connection);
-            PaymentsRepository = new PaymentsRepository(Connection);
-            PaymentMethodsRepository = new PaymentMethodsRepository(Connection);
             ServicesRepository = new ServicesRepository(Connection);
             ServiceTypesRepository = new ServiceTypesRepository(Connection);
         }

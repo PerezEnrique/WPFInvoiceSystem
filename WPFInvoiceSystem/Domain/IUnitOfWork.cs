@@ -9,11 +9,8 @@ namespace WPFInvoiceSystem.Domain
 {
     public interface IUnitOfWork : IDisposable
     {
-        IBanksRepository BanksRepository { get; }
         ICustomersRepository CustomersRepository { get; }
         IInvoicesRepository InvoicesRepository { get; }
-        IPaymentsRepository PaymentsRepository { get; }
-        IPaymentMethodsRepository PaymentMethodsRepository { get; }
         IServicesRepository ServicesRepository { get; }
         IServiceTypesRepository ServiceTypesRepository { get; }
         Task CompleteAsync();

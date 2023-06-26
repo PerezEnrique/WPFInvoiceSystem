@@ -16,9 +16,6 @@ namespace WPFInvoiceSystem.Persistance.EntityConfigs
             entityBuilder
                 .HasIndex(i => i.InvoiceNumber)
                 .IsUnique();
-            
-            entityBuilder
-                .Ignore(i => i.PaymentStatus);
         }
     }
 }

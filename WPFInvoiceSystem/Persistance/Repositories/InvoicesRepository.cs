@@ -20,10 +20,6 @@ namespace WPFInvoiceSystem.Persistance.Repositories
         {
             return await _connection.Invoices
                 .Include(i => i.Customer)
-                .Include(i => i.Payments)
-                    .ThenInclude(p => p.Bank)
-                .Include(i => i.Payments)
-                    .ThenInclude(p => p.PaymentMethod)
                 .Include(i => i.Services)
                     .ThenInclude(s => s.Service)
                         .ThenInclude(s => s.Type)
@@ -39,10 +35,6 @@ namespace WPFInvoiceSystem.Persistance.Repositories
         {
             return await _connection.Invoices
                 .Include(i => i.Customer)
-                .Include(i => i.Payments)
-                    .ThenInclude(p => p.Bank)
-                 .Include(i => i.Payments)
-                    .ThenInclude(p => p.PaymentMethod)
                 .Include(i => i.Services)
                     .ThenInclude(s => s.Service)
                         .ThenInclude(s => s.Type)
@@ -53,23 +45,9 @@ namespace WPFInvoiceSystem.Persistance.Repositories
         {
             return await _connection.Invoices
                 .Include(i => i.Customer)
-                .Include(i => i.Payments)
-                    .ThenInclude(p => p.Bank)
-                 .Include(i => i.Payments)
-                    .ThenInclude(p => p.PaymentMethod)
                 .Include(i => i.Services)
                     .ThenInclude(s => s.Service)
                         .ThenInclude(s => s.Type)
-                .SingleOrDefaultAsync(i => i.Id == id);
-        }
-
-        public async Task<Invoice?> GetWithPayments(int id)
-        {
-            return await _connection.Invoices
-                .Include(i => i.Payments)
-                    .ThenInclude(p => p.Bank)
-                .Include(i => i.Payments)
-                    .ThenInclude(p => p.PaymentMethod)
                 .SingleOrDefaultAsync(i => i.Id == id);
         }
     }
