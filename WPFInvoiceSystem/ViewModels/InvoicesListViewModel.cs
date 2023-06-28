@@ -19,11 +19,8 @@ namespace WPFInvoiceSystem.ViewModels
         public readonly IDialogService _dialogService;
         private readonly IRegionManager _regionManager;
         private readonly IUnitOfWork _unitOfWork;
-        private IRegionNavigationJournal? _navigationJournal;
-
         public DelegateCommand DeleteInvoiceCommand { get; }
         public DelegateCommand MarkInvoiceAsPaidCommand { get; }
-        public DelegateCommand GoBackCommand { get; }
         public DelegateCommand GoToNewInvoiceFormCommand { get; }
         public DelegateCommand GoToInvoiceSearchCommand { get; }
         public DelegateCommand GoToUpdateInvoiceFormCommand { get; }
@@ -71,8 +68,6 @@ namespace WPFInvoiceSystem.ViewModels
                 canExecuteMethod: () => SelectedInvoice != null
                 )
                 .ObservesProperty(() => SelectedInvoice);
-
-            GoBackCommand = new DelegateCommand(() => _navigationJournal?.GoBack());
 
             GoToNewInvoiceFormCommand = new DelegateCommand(() => GoToInvoiceForm(SubmitActions.Create));
 
@@ -187,8 +182,6 @@ namespace WPFInvoiceSystem.ViewModels
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _navigationJournal = navigationContext.NavigationService.Journal;
-
             IsLoading = true;
 
             try
