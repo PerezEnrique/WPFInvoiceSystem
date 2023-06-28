@@ -13,6 +13,5 @@ namespace WPFInvoiceSystem.Services
                 .AddJsonFile("appsettings.json")
                 .Build();
         public static decimal StandardTaxRate { get; } = config.GetValue<decimal>("StandardTaxRate");
-        public static decimal GFTTRate { get; } = config.GetValue<decimal>("GFTTRate");
     }
 }
