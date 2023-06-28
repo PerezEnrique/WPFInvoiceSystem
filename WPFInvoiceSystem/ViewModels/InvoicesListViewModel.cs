@@ -114,31 +114,6 @@ namespace WPFInvoiceSystem.ViewModels
             }
         }
 
-        private async Task MarkInvoiceAsPaid()
-        {
-            Errors.Clear();
-
-            if (SelectedInvoice != null && IsLoading != true)
-            {
-                IsLoading = true;
-
-                try
-                {
-                    SelectedInvoice.IsPaid = true;
-                    await _unitOfWork.CompleteAsync();
-                    await GetInvoices();
-                }
-                catch (Exception)
-                {
-                    Errors.Add(UnexpectedErrorMessage.Message);
-                }
-                finally
-                {
-                    IsLoading = false;
-                }
-            }
-        }
-
         private async Task<IEnumerable<Invoice>> GetInvoices()
         {
             return await _unitOfWork.InvoicesRepository.GetAll();
@@ -169,7 +144,33 @@ namespace WPFInvoiceSystem.ViewModels
                 RegionNames.ContentRegion,
                 ViewNames.InvoiceSearchView);
         }
+        
+        private async Task MarkInvoiceAsPaid()
+        {
+            Errors.Clear();
 
+            if (SelectedInvoice != null && IsLoading != true)
+            {
+                IsLoading = true;
+
+                try
+                {
+                    SelectedInvoice.IsPaid = true;
+                    await _unitOfWork.CompleteAsync();
+                    await GetInvoices();
+                }
+                catch (Exception)
+                {
+                    Errors.Add(UnexpectedErrorMessage.Message);
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
+            }
+        }
+
+        //INavigationAware methods implementation
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return false;
