@@ -87,7 +87,7 @@
                             <GridViewColumn Header="Total">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Total, StringFormat='Bs {0}'}" />
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Total, StringFormat='${0}'}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
