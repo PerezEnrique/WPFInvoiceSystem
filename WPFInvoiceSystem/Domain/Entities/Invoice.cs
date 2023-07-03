@@ -24,5 +24,28 @@ namespace WPFInvoiceSystem.Domain.Entities
         {
             Services = new ObservableCollection<InvoiceService>();
         }
+
+        public void Calculate(decimal standardTaxRate)
+        {
+            Exempt = 0;
+            TaxBase = 0;
+
+            //Determine which services are exempt and which of them are not
+            foreach (var item in Services)
+            {
+                if (item.Service.IsExempt == true)
+                {
+                    Exempt += item.FinalPrice * item.Quantity;
+                }
+                else
+                {
+                    TaxBase += item.FinalPrice * item.Quantity;
+                }
+            }
+
+            Tax = TaxBase * standardTaxRate;
+
+            Total = Exempt + TaxBase + Tax;
+        }
     }
 }

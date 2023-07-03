@@ -83,25 +83,12 @@ namespace WPFInvoiceSystem.ViewModels
 
         private void CalculateInvoice()
         {
-            Exempt = 0;
-            TaxBase = 0;
-            
-            //Determine which services are exempt and which of them are not
-            foreach (var item in _invoice.Services)
-            {
-                if (item.Service.IsExempt == true)
-                {
-                    Exempt += item.FinalPrice * item.Quantity;
-                }
-                else
-                {
-                    TaxBase += item.FinalPrice * item.Quantity;
-                }
-            }
+            _invoice.Calculate(_standardTaxRate);
 
-            Tax = TaxBase * _standardTaxRate;
-
-            Total = Exempt + TaxBase + Tax;
+            Exempt = _invoice.Exempt;
+            TaxBase = _invoice.TaxBase;
+            Tax = _invoice.Tax;
+            Total = _invoice.Total;
         }
 
         private async Task GoToNextStep()
@@ -171,11 +158,6 @@ namespace WPFInvoiceSystem.ViewModels
         {
             /*_invoice here will be either an invoice from db to update 
             or a new invoice object instanciated in the constructor*/
-
-            _invoice.Exempt = Exempt;
-            _invoice.Tax = Tax;
-            _invoice.TaxBase = TaxBase;
-            _invoice.Total = Total;
 
             return _invoice;
         }
