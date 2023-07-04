@@ -27,6 +27,8 @@ namespace WPFInvoiceSystem
                 .RegisterForNavigation<InvoicesListView, InvoicesListViewModel>(name: ViewNames.InvoicesListView);
             containerRegistry
                 .RegisterForNavigation<InvoiceFormView, InvoiceFormViewModel>(name: ViewNames.InvoiceFormView);
+            containerRegistry
+                .RegisterForNavigation<InvoiceMetadataSubformView, InvoiceMetadataSubformViewModel>(name: ViewNames.InvoiceMetadataSubform);
             
             containerRegistry.RegisterSingleton<IUnitOfWork, UnitOfWork>();
             containerRegistry.Register<IValidator<Invoice>, InvoiceValidator>();

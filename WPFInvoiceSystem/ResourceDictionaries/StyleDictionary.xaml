@@ -11,6 +11,7 @@
         <Setter Property="MaxWidth" Value="75" />
     </Style>
 
+    <!--  Buttons  -->
     <Style
         x:Key="StandardButtonStyles"
         BasedOn="{StaticResource BaseStyles}"
@@ -49,12 +50,32 @@
         <Setter Property="Padding" Value="10" />
     </Style>
 
+    <!--  Textboxes  -->
+    <Style
+        x:Key="StandardTextBoxStyles"
+        BasedOn="{StaticResource BaseStyles}"
+        TargetType="TextBox">
+        <Setter Property="MinHeight" Value="30" />
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="10" />
+            </Style>
+        </Style.Resources>
+    </Style>
+
     <Style
         x:Key="TitleStyles"
         BasedOn="{StaticResource BaseStyles}"
         TargetType="TextBlock">
         <Setter Property="FontSize" Value="24" />
         <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style
+        x:Key="SubtitleStyle"
+        BasedOn="{StaticResource TitleStyles}"
+        TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Normal" />
     </Style>
 
 </ResourceDictionary>

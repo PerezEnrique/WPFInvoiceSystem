@@ -24,6 +24,11 @@
             <!--  Title  -->
             <TextBlock Style="{StaticResource TitleStyles}" Text="{Binding SubmitAction, StringFormat='\{0} Invoice'}" />
 
+            <TextBlock
+                Margin="100,0,0,10"
+                Style="{StaticResource SubtitleStyle}"
+                Text="{Binding CurrentFormStep, StringFormat='Paso {0}'}" />
+
             <!--  Loading sppiner  -->
             <Image
                 gif:ImageBehavior.AnimatedSource="pack://application:,,,/WPFInvoiceSystem;component/Resources/Images/loading-spinner.gif"

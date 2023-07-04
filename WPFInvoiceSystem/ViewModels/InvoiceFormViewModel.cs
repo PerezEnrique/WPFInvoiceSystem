@@ -25,11 +25,17 @@ namespace WPFInvoiceSystem.ViewModels
         private Invoice _invoice;
         private InvoiceServicesModifiedEvent _invoiceServicesModifiedEvent;
         private IRegionNavigationJournal? _navigationJournal;
-        private int _nextFormStep;
         private decimal _standardTaxRate;
 
         public DelegateCommand ConfirmCommand { get; }
         public DelegateCommand GoBackCommand { get; }
+
+        private int _currentFormStep;
+        public int CurrentFormStep
+        {
+            get { return _currentFormStep; }
+            set { SetProperty(ref _currentFormStep, value); }
+        }
 
         private decimal _exempt;
         public decimal Exempt
@@ -93,8 +99,9 @@ namespace WPFInvoiceSystem.ViewModels
 
         private async Task GoToNextStep()
         {
+
             //if it's the last step it performs submit and returns
-            if (_nextFormStep >= _formSteps.Count)
+            if (CurrentFormStep > _formSteps.Count)
             {
                 await Submit(); //Possibles exception trhown by Submit() are handled in base class
 
@@ -110,7 +117,7 @@ namespace WPFInvoiceSystem.ViewModels
             not the Content Region used in most of the project*/
             _regionManager.RequestNavigate(
                 RegionNames.FormRegion,
-                _formSteps[_nextFormStep++],
+                _formSteps[CurrentFormStep++],
                 navParams
                 );
         }
@@ -118,7 +125,7 @@ namespace WPFInvoiceSystem.ViewModels
         private void ReturnToPreviousStep()
         {
             //If there's no more entry to return to, it will get out from the whole form 
-            if (_nextFormStep - 2 < 0)
+            if (CurrentFormStep - 1 <= 0)
             {
                 _navigationJournal?.GoBack();
                 return;
@@ -134,14 +141,14 @@ namespace WPFInvoiceSystem.ViewModels
              not the Content Region used in most of the project*/
             _regionManager.RequestNavigate(
                 RegionNames.FormRegion,
-                _formSteps[--_nextFormStep - 1],
+                _formSteps[--CurrentFormStep - 1],
                 navParams
                 );
         }
 
         private void SetFormSteps()
         {
-            _formSteps.Add(ViewNames.FormPrimaryDataView);
+            _formSteps.Add(ViewNames.InvoiceMetadataSubform);
         }
 
         //BaseFormViewModel methods overriding
