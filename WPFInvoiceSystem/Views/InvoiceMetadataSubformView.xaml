@@ -13,7 +13,7 @@
         <!--  Title  -->
         <TextBlock
             Margin="100,0,0,10"
-            Style="{StaticResource SubtitleStyle}"
+            Style="{StaticResource SubtitleStyles}"
             Text="Invoice data" />
 
         <!--  Form  -->
