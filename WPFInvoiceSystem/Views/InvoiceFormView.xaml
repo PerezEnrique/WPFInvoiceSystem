@@ -27,7 +27,7 @@
             <TextBlock
                 Margin="100,0,0,10"
                 Style="{StaticResource SubtitleStyles}"
-                Text="{Binding CurrentFormStep, StringFormat='Paso {0}'}" />
+                Text="{Binding CurrentFormStep, StringFormat='Step {0}'}" />
 
             <!--  Loading sppiner  -->
             <Image
