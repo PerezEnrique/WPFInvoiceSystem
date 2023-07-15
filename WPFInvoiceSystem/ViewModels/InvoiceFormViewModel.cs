@@ -101,7 +101,7 @@ namespace WPFInvoiceSystem.ViewModels
         {
 
             //if it's the last step it performs submit and returns
-            if (CurrentFormStep > _formSteps.Count)
+            if (CurrentFormStep >= _formSteps.Count)
             {
                 await Submit(); //Possibles exception trhown by Submit() are handled in base class
 
@@ -149,6 +149,7 @@ namespace WPFInvoiceSystem.ViewModels
         private void SetFormSteps()
         {
             _formSteps.Add(ViewNames.InvoiceMetadataSubform);
+            _formSteps.Add(ViewNames.CustomerSubformView);
         }
 
         //BaseFormViewModel methods overriding
