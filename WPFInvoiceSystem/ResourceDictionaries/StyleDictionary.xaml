@@ -4,13 +4,6 @@
         <Setter Property="Margin" Value="0,0,0,10" />
     </Style>
 
-    <Style
-        x:Key="SpinnerStyles"
-        BasedOn="{StaticResource BaseStyles}"
-        TargetType="{x:Type Image}">
-        <Setter Property="MaxWidth" Value="75" />
-    </Style>
-
     <!--  Buttons  -->
     <Style
         x:Key="StandardButtonStyles"
@@ -50,6 +43,36 @@
         <Setter Property="Padding" Value="10" />
     </Style>
 
+    <Style
+        x:Key="ActionButtonStyles"
+        BasedOn="{StaticResource StandardButtonStyles}"
+        TargetType="Button">
+        <Setter Property="Padding" Value="10,7.5,10,7.5" />
+    </Style>
+
+    <!--  ItemLists  -->
+    <Style
+        x:Key="ItemsListStyles"
+        BasedOn="{StaticResource BaseStyles}"
+        TargetType="{x:Type ListView}">
+        <Setter Property="Height" Value="150" />
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+            <Trigger Property="HasItems" Value="False">
+                <Setter Property="Visibility" Value="Hidden" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <!--  Spinners  -->
+    <Style
+        x:Key="SpinnerStyles"
+        BasedOn="{StaticResource BaseStyles}"
+        TargetType="{x:Type Image}">
+        <Setter Property="MaxWidth" Value="75" />
+    </Style>
+
     <!--  Textboxes  -->
     <Style
         x:Key="StandardTextBoxStyles"
@@ -63,6 +86,8 @@
         </Style.Resources>
     </Style>
 
+
+    <!--  Title and Subtitles  -->
     <Style
         x:Key="TitleStyles"
         BasedOn="{StaticResource BaseStyles}"
