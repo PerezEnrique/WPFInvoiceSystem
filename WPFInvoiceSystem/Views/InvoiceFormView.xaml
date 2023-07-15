@@ -22,12 +22,19 @@
         <StackPanel DockPanel.Dock="Top">
 
             <!--  Title  -->
-            <TextBlock Style="{StaticResource TitleStyles}" Text="{Binding SubmitAction, StringFormat='\{0} Invoice'}" />
+            <StackPanel Orientation="Horizontal">
 
-            <TextBlock
-                Margin="100,0,0,10"
-                Style="{StaticResource SubtitleStyles}"
-                Text="{Binding CurrentFormStep, StringFormat='Step {0}'}" />
+                <TextBlock
+                    Margin="0,0,0,10"
+                    Style="{StaticResource TitleStyles}"
+                    Text="{Binding SubmitAction, StringFormat='\{0} factura: '}" />
+
+                <TextBlock
+                    Margin="0,0,0,10"
+                    Style="{StaticResource TitleStyles}"
+                    Text="{Binding CurrentFormStep, StringFormat='Paso {0}'}" />
+
+            </StackPanel>
 
             <!--  Loading sppiner  -->
             <Image

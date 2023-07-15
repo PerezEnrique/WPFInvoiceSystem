@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="WPFInvoiceSystem.Views.CustomersSubformView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:convrt="clr-namespace:WPFInvoiceSystem.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WPFInvoiceSystem.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <convrt:BooleanToYesConverter x:Key="BooleanToYes" />
+    </UserControl.Resources>
+    <StackPanel>
+
+        <!--  Title  -->
+        <TextBlock
+            Margin="100,0,0,10"
+            Style="{StaticResource SubtitleStyles}"
+            Text="Invoice customer" />
+
+        <StackPanel HorizontalAlignment="Center">
+
+            <!--  Search and Form buttons  -->
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                <Button
+                    Margin="0,0,10,10"
+                    Command="{Binding ShowCustomerSearchCommand}"
+                    Content="Search customer"
+                    Style="{StaticResource ActionButtonStyles}" />
+
+                <Button
+                    Margin="10,0,0,10"
+                    Command="{Binding ShowCreateCustomerFormCommand}"
+                    Content="New Customer"
+                    Style="{StaticResource ActionButtonStyles}" />
+
+            </StackPanel>
+
+            <GroupBox
+                Width="400"
+                Header="Selected customer"
+                Style="{StaticResource BaseStyles}">
+
+                <StackPanel>
+
+                    <TextBlock
+                        Style="{StaticResource BaseStyles}"
+                        Text="{Binding Customer.Name, StringFormat='Name: {0}'}"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock Style="{StaticResource BaseStyles}" Text="{Binding Customer.IdentityCard, StringFormat='Identity card: {0}'}" />
+
+                    <Button
+                        HorizontalAlignment="Center"
+                        Command="{Binding ShowEditCustomerFormCommand}"
+                        Content="Editar cliente"
+                        Style="{StaticResource ActionButtonStyles}" />
+
+                </StackPanel>
+
+            </GroupBox>
+
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

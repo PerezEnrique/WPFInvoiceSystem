@@ -9,5 +9,7 @@ namespace WPFInvoiceSystem.Utils.Constants
     public static class DialogNames
     {
         public const string ConfirmOperationDialog = nameof(ConfirmOperationDialog);
+        public const string CustomersFormDialog = nameof(CustomersFormDialog);
+        public const string CustomersSearchDialog = nameof(CustomersSearchDialog);
     }
 }
