@@ -35,11 +35,11 @@ namespace WPFInvoiceSystem.Domain.Entities
             {
                 if (item.Service.IsExempt == true)
                 {
-                    Exempt += item.FinalPrice * item.Quantity;
+                    Exempt += item.Service.Price * item.Quantity;
                 }
                 else
                 {
-                    TaxBase += item.FinalPrice * item.Quantity;
+                    TaxBase += item.Service.Price * item.Quantity;
                 }
             }
 

@@ -13,7 +13,6 @@ namespace WPFInvoiceSystem.Domain.Entities
         public virtual Invoice Invoice { get; set; }
         public virtual Service Service { get; set; }
         public int ServiceId { get; set; }
-        public decimal FinalPrice { get; set; }
         public int Quantity { get; set; }
     }
 }
