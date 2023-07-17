@@ -27,12 +27,12 @@
                 <TextBlock
                     Margin="0,0,0,10"
                     Style="{StaticResource TitleStyles}"
-                    Text="{Binding SubmitAction, StringFormat='\{0} factura: '}" />
+                    Text="{Binding SubmitAction, StringFormat='\{0} invoice: '}" />
 
                 <TextBlock
                     Margin="0,0,0,10"
                     Style="{StaticResource TitleStyles}"
-                    Text="{Binding CurrentFormStep, StringFormat='Paso {0}'}" />
+                    Text="{Binding CurrentFormStep, StringFormat='Step {0}'}" />
 
             </StackPanel>
 

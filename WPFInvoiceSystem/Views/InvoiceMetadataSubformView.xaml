@@ -43,7 +43,7 @@
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
-                Content="Número de factura"
+                Content="Invoice number"
                 Style="{StaticResource BaseStyles}" />
             <TextBox
                 Grid.Row="1"
