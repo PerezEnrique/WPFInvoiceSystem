@@ -18,7 +18,7 @@ namespace WPFInvoiceSystem.Persistance.EntityConfigs
                 .IsRequired()
                 .HasMaxLength(25);
 
-            //Reference data seeding
+            //Dummy data seeding
             var initialTypes = new List<ServiceType>
             {
                 new ServiceType
