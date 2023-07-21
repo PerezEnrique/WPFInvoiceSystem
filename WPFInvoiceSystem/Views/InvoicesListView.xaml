@@ -116,8 +116,8 @@
                     Grid.Row="1"
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    Command="{Binding MarkInvoiceAsPaidCommand}"
-                    Content="Mark as paid"
+                    Command="{Binding TogglePaymentStatusCommand}"
+                    Content="Change payment status"
                     Style="{StaticResource NavigationButtonStyles}" />
 
                 <Button

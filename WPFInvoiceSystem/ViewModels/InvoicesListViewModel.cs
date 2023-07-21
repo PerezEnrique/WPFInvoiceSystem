@@ -20,7 +20,7 @@ namespace WPFInvoiceSystem.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IUnitOfWork _unitOfWork;
         public DelegateCommand DeleteInvoiceCommand { get; }
-        public DelegateCommand MarkInvoiceAsPaidCommand { get; }
+        public DelegateCommand TogglePaymentStatusCommand { get; }
         public DelegateCommand GoToNewInvoiceFormCommand { get; }
         public DelegateCommand GoToInvoiceSearchCommand { get; }
         public DelegateCommand GoToUpdateInvoiceFormCommand { get; }
@@ -63,8 +63,8 @@ namespace WPFInvoiceSystem.ViewModels
                 )
                 .ObservesProperty(() => SelectedInvoice);
 
-            MarkInvoiceAsPaidCommand = new DelegateCommand(
-                executeMethod: async () => await MarkInvoiceAsPaid(),
+            TogglePaymentStatusCommand = new DelegateCommand(
+                executeMethod: async () => await TogglePaymentStatus(),
                 canExecuteMethod: () => SelectedInvoice != null
                 )
                 .ObservesProperty(() => SelectedInvoice);
@@ -145,7 +145,7 @@ namespace WPFInvoiceSystem.ViewModels
                 ViewNames.InvoiceSearchView);
         }
         
-        private async Task MarkInvoiceAsPaid()
+        private async Task TogglePaymentStatus()
         {
             Errors.Clear();
 
@@ -155,9 +155,10 @@ namespace WPFInvoiceSystem.ViewModels
 
                 try
                 {
-                    SelectedInvoice.IsPaid = true;
+                    SelectedInvoice.IsPaid = !SelectedInvoice.IsPaid;
                     await _unitOfWork.CompleteAsync();
-                    await GetInvoices();
+                    Invoices.Clear();
+                    Invoices.AddRange(await GetInvoices());
                 }
                 catch (Exception)
                 {
