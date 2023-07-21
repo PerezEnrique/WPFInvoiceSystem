@@ -15,5 +15,6 @@ namespace WPFInvoiceSystem.Domain.Entities
         public string Name { get; set; }
         public decimal Price { get; set; }
         public virtual ServiceType Type { get; set; }
+        public int TypeId { get; set; } //This was added here only to ease the process of injecting the dummy services
     }
 }
