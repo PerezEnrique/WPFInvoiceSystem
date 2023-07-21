@@ -10,9 +10,9 @@ namespace WPFInvoiceSystem.Domain.Repositories
 {
     public interface IInvoicesRepository : IBaseRepository<Invoice>
     {
-        Task<IEnumerable<Invoice>> FindWithRelatedData(Expression<Func<Invoice, bool>> predicate);
         Task<Invoice?> GetByInvoiceNumber(int invoiceNumber);
         Task<Invoice?> GetByInvoiceNumberWithRelatedData(int invoiceNumber);
         Task<Invoice?> GetWithRelatedData(int id);
+        Task<IEnumerable<Invoice>> GetAllWithCustomerData();
     }
 }

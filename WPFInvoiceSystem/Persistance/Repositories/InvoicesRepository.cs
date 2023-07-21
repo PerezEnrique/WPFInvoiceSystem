@@ -16,16 +16,6 @@ namespace WPFInvoiceSystem.Persistance.Repositories
         {
         }
 
-        public async Task<IEnumerable<Invoice>> FindWithRelatedData(Expression<Func<Invoice, bool>> predicate)
-        {
-            return await _connection.Invoices
-                .Include(i => i.Customer)
-                .Include(i => i.Services)
-                    .ThenInclude(s => s.Service)
-                        .ThenInclude(s => s.Type)
-                .Where(predicate).ToListAsync();
-        }
-
         public async Task<Invoice?> GetByInvoiceNumber(int invoiceNumber)
         {
             return await _connection.Invoices.SingleOrDefaultAsync(i => i.InvoiceNumber == invoiceNumber);
@@ -41,6 +31,12 @@ namespace WPFInvoiceSystem.Persistance.Repositories
                 .SingleOrDefaultAsync(i => i.InvoiceNumber == invoiceNumber);
         }
 
+        public async Task<IEnumerable<Invoice>> GetAllWithCustomerData()
+        {
+            return await _connection.Invoices
+                .Include(i => i.Customer)
+                .ToListAsync();
+        }
         public async Task<Invoice?> GetWithRelatedData(int id)
         {
             return await _connection.Invoices

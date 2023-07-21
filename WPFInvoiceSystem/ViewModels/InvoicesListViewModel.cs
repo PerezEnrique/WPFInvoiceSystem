@@ -116,7 +116,7 @@ namespace WPFInvoiceSystem.ViewModels
 
         private async Task<IEnumerable<Invoice>> GetInvoices()
         {
-            return await _unitOfWork.InvoicesRepository.GetAll();
+            return await _unitOfWork.InvoicesRepository.GetAllWithCustomerData();
         }
 
         private void GoToInvoiceForm(string submitAction)
