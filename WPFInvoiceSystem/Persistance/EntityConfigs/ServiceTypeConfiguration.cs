@@ -12,11 +12,29 @@ namespace WPFInvoiceSystem.Persistance.EntityConfigs
     {
         public ServiceTypeConfiguration(EntityTypeBuilder<ServiceType> entityBuilder)
         {
-            //Table restrictions//Table restrictions
+            //Table restrictions
             entityBuilder
                 .Property(st => st.Name)
                 .IsRequired()
                 .HasMaxLength(25);
+
+            //Reference data seeding
+            var initialTypes = new List<ServiceType>
+            {
+                new ServiceType
+                {
+                    Id = 1,
+                    Name = "Type A"
+                },
+
+                new ServiceType
+                {
+                    Id = 2,
+                    Name = "Type B"
+                }
+            };
+
+            entityBuilder.HasData(initialTypes);
         }
     }
 }
