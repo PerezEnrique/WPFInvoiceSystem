@@ -107,6 +107,7 @@
                 <Button
                     Grid.Row="0"
                     Grid.Column="2"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Command="{Binding GoToUpdateInvoiceFormCommand}"
                     Content="Update invoice"
@@ -115,6 +116,8 @@
                 <Button
                     Grid.Row="1"
                     Grid.Column="2"
+                    Width="190"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Command="{Binding TogglePaymentStatusCommand}"
                     Content="Change payment status"
@@ -123,6 +126,7 @@
                 <Button
                     Grid.Row="2"
                     Grid.Column="2"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Command="{Binding DeleteInvoiceCommand}"
                     Content="Delete Invoice"
