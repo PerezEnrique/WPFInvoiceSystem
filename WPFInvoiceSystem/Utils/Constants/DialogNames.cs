@@ -11,5 +11,7 @@ namespace WPFInvoiceSystem.Utils.Constants
         public const string ConfirmOperationDialog = nameof(ConfirmOperationDialog);
         public const string CustomersFormDialog = nameof(CustomersFormDialog);
         public const string CustomersSearchDialog = nameof(CustomersSearchDialog);
+        public const string ServiceFormDialog = nameof(ServiceFormDialog);
+        public const string ServiceSearchDialog = nameof(ServiceSearchDialog);
     }
 }

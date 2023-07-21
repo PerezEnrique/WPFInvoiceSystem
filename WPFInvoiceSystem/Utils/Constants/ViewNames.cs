@@ -13,5 +13,6 @@ namespace WPFInvoiceSystem.Utils.Constants
         public const string InvoicesListView = nameof(InvoicesListView);
         public const string InvoiceSearchView = nameof(InvoiceSearchView); 
         public const string InvoiceMetadataSubform = nameof(InvoiceMetadataSubform);
+        public const string ServiceSubformView = nameof(ServiceSubformView);
     }
 }

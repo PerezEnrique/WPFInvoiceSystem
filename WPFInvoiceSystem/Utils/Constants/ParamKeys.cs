@@ -13,6 +13,7 @@ namespace WPFInvoiceSystem.Utils.Constants
         public const string Invoice = nameof(Invoice);
         public const string InvoiceId = nameof(InvoiceId);
         public const string Message = nameof(Message);
+        public const string Service = nameof(Service);
         public const string SumbitAction = nameof(SumbitAction);
     }
 }

@@ -86,6 +86,13 @@
         </Style.Resources>
     </Style>
 
+    <Style
+        x:Key="CurrencyTextBoxStyles"
+        BasedOn="{StaticResource StandardTextBoxStyles}"
+        TargetType="TextBox">
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+    </Style>
+
 
     <!--  Title and Subtitles  -->
     <Style

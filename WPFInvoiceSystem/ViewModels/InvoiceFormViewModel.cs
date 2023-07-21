@@ -150,6 +150,7 @@ namespace WPFInvoiceSystem.ViewModels
         {
             _formSteps.Add(ViewNames.InvoiceMetadataSubform);
             _formSteps.Add(ViewNames.CustomerSubformView);
+            _formSteps.Add(ViewNames.ServiceSubformView);
         }
 
         //BaseFormViewModel methods overriding

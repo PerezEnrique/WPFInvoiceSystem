@@ -70,7 +70,7 @@ namespace WPFInvoiceSystem.ViewModels
             RequestClose?.Invoke(new DialogResult(result));
         }
 
-        //INavigationAware methods implementation
+        //IDialogAware methods implementation
         public bool CanCloseDialog()
         {
             return true;

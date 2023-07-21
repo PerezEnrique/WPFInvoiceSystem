@@ -32,6 +32,10 @@ namespace WPFInvoiceSystem
                 .RegisterDialog<CustomerFormView, CustomerFormViewModel>(name: DialogNames.CustomersFormDialog);
             containerRegistry
                 .RegisterDialog<CustomersSearchView, CustomersSearchViewModel>(name: DialogNames.CustomersSearchDialog);
+            containerRegistry
+                .RegisterDialog<ServiceFormView, ServiceFormViewModel>(name: DialogNames.ServiceFormDialog);
+            containerRegistry
+                .RegisterDialog<ServiceSearchView, ServiceSearchViewModel>(name: DialogNames.ServiceSearchDialog);
 
             containerRegistry
                 .RegisterForNavigation<InvoicesListView, InvoicesListViewModel>(name: ViewNames.InvoicesListView);
@@ -41,6 +45,8 @@ namespace WPFInvoiceSystem
                 .RegisterForNavigation<InvoiceMetadataSubformView, InvoiceMetadataSubformViewModel>(name: ViewNames.InvoiceMetadataSubform);
             containerRegistry
                 .RegisterForNavigation<CustomersSubformView, CustomersSubformViewModel>(name: ViewNames.CustomerSubformView);
+            containerRegistry
+                .RegisterForNavigation<ServiceSubformView, ServicesSubformViewModel>(name: ViewNames.ServiceSubformView);
             
             containerRegistry
                 .RegisterSingleton<IUnitOfWork, UnitOfWork>();
