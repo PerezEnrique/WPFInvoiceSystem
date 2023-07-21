@@ -39,7 +39,7 @@
         x:Key="NavigationButtonStyles"
         BasedOn="{StaticResource StandardButtonStyles}"
         TargetType="Button">
-        <Setter Property="Width" Value="175" />
+        <Setter Property="Width" Value="190" />
         <Setter Property="Padding" Value="10" />
     </Style>
 
@@ -47,7 +47,7 @@
         x:Key="ActionButtonStyles"
         BasedOn="{StaticResource StandardButtonStyles}"
         TargetType="Button">
-        <Setter Property="Padding" Value="10,7.5,10,7.5" />
+        <Setter Property="Padding" Value="10,9,10,9" />
     </Style>
 
     <!--  ItemLists  -->
