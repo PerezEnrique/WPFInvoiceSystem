@@ -44,6 +44,8 @@ namespace WPFInvoiceSystem
             containerRegistry
                 .RegisterForNavigation<InvoiceMetadataSubformView, InvoiceMetadataSubformViewModel>(name: ViewNames.InvoiceMetadataSubform);
             containerRegistry
+                .RegisterForNavigation<InvoiceSearchView, InvoiceSearchViewModel>(name: ViewNames.InvoiceSearchView);
+            containerRegistry
                 .RegisterForNavigation<InvoicesListView, InvoicesListViewModel>(name: ViewNames.InvoicesListView);
             containerRegistry
                 .RegisterForNavigation<ServiceSubformView, ServicesSubformViewModel>(name: ViewNames.ServiceSubformView);
