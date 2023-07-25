@@ -20,10 +20,10 @@ namespace WPFInvoiceSystem.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IUnitOfWork _unitOfWork;
         public DelegateCommand DeleteInvoiceCommand { get; }
-        public DelegateCommand TogglePaymentStatusCommand { get; }
         public DelegateCommand GoToNewInvoiceFormCommand { get; }
         public DelegateCommand GoToInvoiceSearchCommand { get; }
         public DelegateCommand GoToUpdateInvoiceFormCommand { get; }
+        public DelegateCommand TogglePaymentStatusCommand { get; }
         public ObservableCollection<string> Errors { get; }
 
         private ObservableCollection<Invoice> _invoices;
@@ -59,15 +59,17 @@ namespace WPFInvoiceSystem.ViewModels
 
             DeleteInvoiceCommand = new DelegateCommand(
                 executeMethod: () => DeleteInvoice(),
-                canExecuteMethod: () => SelectedInvoice != null
+                canExecuteMethod: () => SelectedInvoice != null && !IsLoading
                 )
-                .ObservesProperty(() => SelectedInvoice);
+                .ObservesProperty(() => SelectedInvoice)
+                .ObservesProperty(() => IsLoading);
 
             TogglePaymentStatusCommand = new DelegateCommand(
                 executeMethod: async () => await TogglePaymentStatus(),
-                canExecuteMethod: () => SelectedInvoice != null
+                canExecuteMethod: () => SelectedInvoice != null && !IsLoading
                 )
-                .ObservesProperty(() => SelectedInvoice);
+                .ObservesProperty(() => SelectedInvoice)
+                .ObservesProperty(() => IsLoading);
 
             GoToNewInvoiceFormCommand = new DelegateCommand(() => GoToInvoiceForm(SubmitActions.Create));
 
@@ -82,7 +84,7 @@ namespace WPFInvoiceSystem.ViewModels
 
         private void DeleteInvoice()
         {
-            if (SelectedInvoice != null)
+            if (SelectedInvoice != null && !IsLoading)
             {
                 var dialogParams = new DialogParameters
                 {
@@ -93,8 +95,9 @@ namespace WPFInvoiceSystem.ViewModels
                 {
                     if (result.Result == ButtonResult.OK)
                     {
-                        Errors.Clear();
                         IsLoading = true;
+                        
+                        Errors.Clear();
                         try
                         {
                             _unitOfWork.InvoicesRepository.Remove(SelectedInvoice);
@@ -148,11 +151,11 @@ namespace WPFInvoiceSystem.ViewModels
         
         private async Task TogglePaymentStatus()
         {
-            Errors.Clear();
-
-            if (SelectedInvoice != null && IsLoading != true)
+            if (SelectedInvoice != null && !IsLoading)
             {
                 IsLoading = true;
+
+                Errors.Clear();
 
                 try
                 {
