@@ -24,9 +24,9 @@ namespace WPFInvoiceSystem
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry
-                .Register<IValidator<Invoice>, InvoiceValidator>();
-            containerRegistry
                 .Register<IValidator<Customer>, CustomerValidator>();
+            containerRegistry
+                .Register<IValidator<Invoice>, InvoiceValidator>();
 
             containerRegistry
                 .RegisterDialog<CustomerFormView, CustomerFormViewModel>(name: DialogNames.CustomersFormDialog);
@@ -38,13 +38,13 @@ namespace WPFInvoiceSystem
                 .RegisterDialog<ServiceSearchView, ServiceSearchViewModel>(name: DialogNames.ServiceSearchDialog);
 
             containerRegistry
-                .RegisterForNavigation<InvoicesListView, InvoicesListViewModel>(name: ViewNames.InvoicesListView);
+                .RegisterForNavigation<CustomersSubformView, CustomersSubformViewModel>(name: ViewNames.CustomerSubformView);
             containerRegistry
                 .RegisterForNavigation<InvoiceFormView, InvoiceFormViewModel>(name: ViewNames.InvoiceFormView);
             containerRegistry
                 .RegisterForNavigation<InvoiceMetadataSubformView, InvoiceMetadataSubformViewModel>(name: ViewNames.InvoiceMetadataSubform);
             containerRegistry
-                .RegisterForNavigation<CustomersSubformView, CustomersSubformViewModel>(name: ViewNames.CustomerSubformView);
+                .RegisterForNavigation<InvoicesListView, InvoicesListViewModel>(name: ViewNames.InvoicesListView);
             containerRegistry
                 .RegisterForNavigation<ServiceSubformView, ServicesSubformViewModel>(name: ViewNames.ServiceSubformView);
             
