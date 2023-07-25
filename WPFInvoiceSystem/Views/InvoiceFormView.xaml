@@ -22,19 +22,14 @@
         <StackPanel DockPanel.Dock="Top">
 
             <!--  Title  -->
-            <StackPanel Orientation="Horizontal">
-
-                <TextBlock
-                    Margin="0,0,0,10"
-                    Style="{StaticResource TitleStyles}"
-                    Text="{Binding SubmitAction, StringFormat='\{0} invoice: '}" />
-
-                <TextBlock
-                    Margin="0,0,0,10"
-                    Style="{StaticResource TitleStyles}"
-                    Text="{Binding CurrentFormStep, StringFormat='Step {0}'}" />
-
-            </StackPanel>
+            <TextBlock Style="{StaticResource TitleStyles}">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat=" {0} Invoice: Setp {1}">
+                        <Binding Path="SubmitAction" />
+                        <Binding Path="CurrentFormStep" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
 
             <!--  Loading sppiner  -->
             <Image
