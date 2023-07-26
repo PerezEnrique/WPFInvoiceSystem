@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPFInvoiceSystem.Domain.Entities
+namespace WPFInvoiceSystem.Domain.Modals
 {
     public class Service
     {

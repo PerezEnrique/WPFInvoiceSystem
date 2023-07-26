@@ -2,7 +2,7 @@
 using Prism.Ioc;
 using System.Windows;
 using WPFInvoiceSystem.Domain;
-using WPFInvoiceSystem.Domain.Entities;
+using WPFInvoiceSystem.Domain.Modals;
 using WPFInvoiceSystem.Persistance.Repositories;
 using WPFInvoiceSystem.Utils.Constants;
 using WPFInvoiceSystem.Utils.Validation;

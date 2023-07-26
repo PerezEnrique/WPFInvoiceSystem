@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using WPFInvoiceSystem.Domain.Entities;
+using WPFInvoiceSystem.Domain.Modals;
 using WPFInvoiceSystem.Persistance.EntityConfigs;
 
 namespace WPFInvoiceSystem.Persistance

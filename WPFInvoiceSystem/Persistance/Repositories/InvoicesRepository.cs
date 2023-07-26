@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using WPFInvoiceSystem.Domain.Entities;
+using WPFInvoiceSystem.Domain.Modals;
 using WPFInvoiceSystem.Domain.Repositories;
 
 namespace WPFInvoiceSystem.Persistance.Repositories

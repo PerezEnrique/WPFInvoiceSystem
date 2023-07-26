@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WPFInvoiceSystem.Domain.Entities;
+using WPFInvoiceSystem.Domain.Modals;
 using WPFInvoiceSystem.EventClasses;
 using WPFInvoiceSystem.Utils.Constants;
 

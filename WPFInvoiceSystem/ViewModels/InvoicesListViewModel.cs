@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WPFInvoiceSystem.Domain;
-using WPFInvoiceSystem.Domain.Entities;
+using WPFInvoiceSystem.Domain.Modals;
 using WPFInvoiceSystem.Utils.Constants;
 
 namespace WPFInvoiceSystem.ViewModels

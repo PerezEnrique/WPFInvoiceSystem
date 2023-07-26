@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity;
 
-namespace WPFInvoiceSystem.Domain.Entities
+namespace WPFInvoiceSystem.Domain.Modals
 {
     public class InvoiceService
     {
