@@ -50,7 +50,7 @@
         <Setter Property="Padding" Value="10,7.5,10,7.5" />
     </Style>
 
-    <!--  ItemLists  -->
+    <!--  ItemsList  -->
     <Style
         x:Key="ItemsListStyles"
         BasedOn="{StaticResource BaseStyles}"
@@ -64,6 +64,16 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="ItemListWithGridViewStyles" TargetType="{x:Type ListView}">
+        <Setter Property="BorderBrush" Value="LightBlue" />
+    </Style>
+
+    <Style TargetType="{x:Type GridViewColumnHeader}">
+        <Setter Property="Background" Value="BlueViolet" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
 
     <!--  Spinners  -->
     <Style

@@ -37,7 +37,7 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition MinWidth="40" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
@@ -53,17 +53,18 @@
                     Grid.Column="0"
                     Height="350"
                     MinWidth="600"
+                    MaxWidth="750"
                     ItemsSource="{Binding Invoices}"
                     SelectedItem="{Binding SelectedInvoice}"
                     SelectionMode="Single"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource ItemListWithGridViewStyles}">
                     <ListView.View>
                         <GridView AllowsColumnReorder="True">
 
                             <GridViewColumn Header="Invoice Number">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding InvoiceNumber}" />
+                                        <TextBlock Padding="0,10" Text="{Binding InvoiceNumber}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -71,23 +72,31 @@
                             <GridViewColumn Header="Identity Card">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding Customer.IdentityCard}" />
+                                        <TextBlock Padding="0,10" Text="{Binding Customer.IdentityCard}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="Customer">
+                            <GridViewColumn Width="250" Header="Customer">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding Customer.Name}" />
+                                        <TextBlock
+                                            Width="250"
+                                            Padding="0,10"
+                                            Text="{Binding Customer.Name}"
+                                            TextAlignment="Center" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="Total">
+                            <GridViewColumn Width="75" Header="Total">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Total, StringFormat='${0}'}" />
+                                        <TextBlock
+                                            Width="75"
+                                            Padding="0,10"
+                                            Text="{Binding Total, StringFormat='${0}'}"
+                                            TextAlignment="Right" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -95,7 +104,7 @@
                             <GridViewColumn Header="Paid">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock HorizontalAlignment="Right" Text="{Binding IsPaid}" />
+                                        <TextBlock Padding="0,10" Text="{Binding IsPaid}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
