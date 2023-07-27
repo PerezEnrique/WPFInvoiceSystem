@@ -31,6 +31,8 @@ namespace WPFInvoiceSystem
                 .Register<IValidator<Service>, ServiceValidator>();
 
             containerRegistry
+                .RegisterDialog<ConfirmOperationView, ConfirmOperationViewModel>(name: DialogNames.ConfirmOperationDialog);
+            containerRegistry
                 .RegisterDialog<CustomerFormView, CustomerFormViewModel>(name: DialogNames.CustomersFormDialog);
             containerRegistry
                 .RegisterDialog<CustomersSearchView, CustomersSearchViewModel>(name: DialogNames.CustomersSearchDialog);
