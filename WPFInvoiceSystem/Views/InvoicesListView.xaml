@@ -90,7 +90,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Width="75" Header="Total">
+                            <GridViewColumn Width="100" Header="Total">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock
