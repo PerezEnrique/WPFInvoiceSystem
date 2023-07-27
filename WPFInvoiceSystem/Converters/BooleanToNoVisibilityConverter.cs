@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using WPFInvoiceSystem.Utils.Constants;
 
 namespace WPFInvoiceSystem.Converters
 {
@@ -29,10 +30,5 @@ namespace WPFInvoiceSystem.Converters
             if (visibility == Visibility.Visible) return false;
             return true;
         }
-    }
-    public static class NoVisibilityModes
-    {
-        public const string Collapsed = "Collapsed";
-        public const string Hidden = "Hidden";
     }
 }
