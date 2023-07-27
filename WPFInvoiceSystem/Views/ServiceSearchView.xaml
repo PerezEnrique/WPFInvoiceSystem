@@ -8,7 +8,7 @@
     xmlns:local="clr-namespace:WPFInvoiceSystem.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:WPFInvoiceSystem.UserControls"
-    Padding="75"
+    Padding="50,25"
     d:DesignHeight="450"
     d:DesignWidth="800"
     FontSize="16"
@@ -24,6 +24,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -116,7 +117,7 @@
 
         <!--  Error list  -->
         <uc:ErrorsList
-            Grid.Row="6"
+            Grid.Row="8"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             MaxWidth="400"
