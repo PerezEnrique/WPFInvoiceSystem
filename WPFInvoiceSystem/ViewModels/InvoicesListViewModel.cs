@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using WPFInvoiceSystem.Domain;
 using WPFInvoiceSystem.Domain.Modals;
 using WPFInvoiceSystem.Utils.Constants;
+using WPFInvoiceSystem.Utils.Helpers;
 
 namespace WPFInvoiceSystem.ViewModels
 {
@@ -24,6 +25,7 @@ namespace WPFInvoiceSystem.ViewModels
         public DelegateCommand GoToInvoiceSearchCommand { get; }
         public DelegateCommand GoToUpdateInvoiceFormCommand { get; }
         public DelegateCommand TogglePaymentStatusCommand { get; }
+        public DelegateCommand GenerateReportCommand { get; }
         public ObservableCollection<string> Errors { get; }
 
         private ObservableCollection<Invoice> _invoices;
@@ -63,6 +65,11 @@ namespace WPFInvoiceSystem.ViewModels
                 )
                 .ObservesProperty(() => SelectedInvoice)
                 .ObservesProperty(() => IsLoading);
+
+            GenerateReportCommand = new DelegateCommand(
+                executeMethod: GenerateReport,
+                canExecuteMethod: () => Invoices.Any()
+                );
 
             TogglePaymentStatusCommand = new DelegateCommand(
                 executeMethod: async () => await TogglePaymentStatus(),
@@ -104,6 +111,7 @@ namespace WPFInvoiceSystem.ViewModels
                             await _unitOfWork.CompleteAsync();
                             Invoices.Clear();
                             await GetInvoices();
+                            GenerateReportCommand.RaiseCanExecuteChanged();
                         }
                         catch (Exception)
                         {
@@ -148,6 +156,14 @@ namespace WPFInvoiceSystem.ViewModels
                 RegionNames.ContentRegion,
                 ViewNames.InvoiceSearchView);
         }
+
+        private void GenerateReport()
+        {
+            if(Invoices.Any())
+            {
+                ReportGenerator.Generate(Invoices);
+            }
+        }
         
         private async Task TogglePaymentStatus()
         {
@@ -163,6 +179,7 @@ namespace WPFInvoiceSystem.ViewModels
                     await _unitOfWork.CompleteAsync();
                     Invoices.Clear();
                     Invoices.AddRange(await GetInvoices());
+                    GenerateReportCommand.RaiseCanExecuteChanged();
                 }
                 catch (Exception)
                 {
@@ -193,6 +210,7 @@ namespace WPFInvoiceSystem.ViewModels
             try
             {
                 Invoices.AddRange(await Task.Run(async () => await GetInvoices()));
+                GenerateReportCommand.RaiseCanExecuteChanged();
             }
             catch (Exception)
             {
