@@ -110,7 +110,7 @@ namespace WPFInvoiceSystem.ViewModels
                             _unitOfWork.InvoicesRepository.Remove(SelectedInvoice);
                             await _unitOfWork.CompleteAsync();
                             Invoices.Clear();
-                            await GetInvoices();
+                            Invoices.AddRange(await GetInvoices());
                             GenerateReportCommand.RaiseCanExecuteChanged();
                         }
                         catch (Exception)
