@@ -27,6 +27,8 @@ namespace WPFInvoiceSystem
                 .Register<IValidator<Customer>, CustomerValidator>();
             containerRegistry
                 .Register<IValidator<Invoice>, InvoiceValidator>();
+            containerRegistry
+                .Register<IValidator<Service>, ServiceValidator>();
 
             containerRegistry
                 .RegisterDialog<CustomerFormView, CustomerFormViewModel>(name: DialogNames.CustomersFormDialog);
