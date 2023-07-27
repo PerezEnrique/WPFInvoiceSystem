@@ -5,12 +5,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WPFInvoiceSystem.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Padding="25"
+    Padding="20"
     d:DesignHeight="450"
     d:DesignWidth="800"
     FontSize="16"
     mc:Ignorable="d">
     <StackPanel>
+
+        <TextBlock
+            Style="{StaticResource TitleStyles}"
+            Text="Confirm operation"
+            TextAlignment="Center" />
 
         <TextBlock
             MaxWidth="400"
