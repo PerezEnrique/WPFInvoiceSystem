@@ -9,9 +9,9 @@ namespace WPFInvoiceSystem.Services
 {
     public static class ConfigurationService
     {
-        private static IConfiguration config = new ConfigurationBuilder()
+        public static IConfiguration Config { get; } = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-        public static decimal StandardTaxRate { get; } = config.GetValue<decimal>("StandardTaxRate");
+        public static decimal StandardTaxRate { get; } = Config.GetValue<decimal>("StandardTaxRate");
     }
 }
