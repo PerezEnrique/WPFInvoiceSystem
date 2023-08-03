@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WPFInvoiceSystem.Domain.Modals;
 
-namespace WPFInvoiceSystem.Utils.Validation
+namespace WPFInvoiceSystem.Validation
 {
     public class ServiceValidator : AbstractValidator<Service>
     {

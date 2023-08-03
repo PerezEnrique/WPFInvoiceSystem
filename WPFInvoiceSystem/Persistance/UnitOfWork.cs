@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using WPFInvoiceSystem.Domain;
 using WPFInvoiceSystem.Domain.Modals;
 using WPFInvoiceSystem.Domain.Repositories;
+using WPFInvoiceSystem.Persistance.Repositories;
 
-namespace WPFInvoiceSystem.Persistance.Repositories
+namespace WPFInvoiceSystem.Persistance
 {
     public class UnitOfWork : IUnitOfWork
     {
