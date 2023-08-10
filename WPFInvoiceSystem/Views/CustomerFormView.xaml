@@ -1,0 +1,142 @@
+﻿<UserControl
+    x:Class="WPFInvoiceSystem.Views.CustomerFormView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:constants="clr-namespace:WPFInvoiceSystem.Utils.Constants"
+    xmlns:convrt="clr-namespace:WPFInvoiceSystem.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gif="http://wpfanimatedgif.codeplex.com"
+    xmlns:local="clr-namespace:WPFInvoiceSystem.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="clr-namespace:WPFInvoiceSystem.UserControls"
+    Padding="50,25"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    FontSize="16"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <convrt:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <!--  Title  -->
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Style="{StaticResource TitleStyles}"
+            Text="{Binding SubmitAction, StringFormat='\{0} Customer'}" />
+
+        <!--  Form  -->
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Identity card"
+            Style="{StaticResource BaseStyles}" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="2"
+            Style="{StaticResource StandardTextBoxStyles}"
+            Text="{Binding IdentityCard, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="Name"
+            Style="{StaticResource BaseStyles}" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="2"
+            Style="{StaticResource StandardTextBoxStyles}"
+            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Birthdate"
+            Style="{StaticResource BaseStyles}" />
+        <DatePicker
+            Grid.Row="3"
+            Grid.Column="2"
+            SelectedDate="{Binding Birthdate}"
+            Style="{StaticResource BaseStyles}" />
+
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            Content="Address"
+            Style="{StaticResource BaseStyles}" />
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="2"
+            AcceptsReturn="True"
+            Style="{StaticResource StandardTextBoxStyles}"
+            Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            Content="Phone"
+            Style="{StaticResource BaseStyles}" />
+        <TextBox
+            Grid.Row="5"
+            Grid.Column="2"
+            Style="{StaticResource StandardTextBoxStyles}"
+            Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!--  Loading sppiner  -->
+        <Image
+            Grid.Row="6"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            gif:ImageBehavior.AnimatedSource="pack://application:,,,/WPFInvoiceSystem;component/Resources/Images/loading-spinner.gif"
+            Style="{StaticResource SpinnerStyles}"
+            Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}, ConverterParameter={x:Static constants:NoVisibilityModes.Hidden}}" />
+
+        <!--  Cancel and confirm buttons  -->
+        <Button
+            Grid.Row="7"
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            Command="{Binding GoBackCommand}"
+            Content="Go back"
+            IsCancel="True"
+            Style="{StaticResource NavigationButtonStyles}" />
+
+        <Button
+            Grid.Row="7"
+            Grid.Column="2"
+            HorizontalAlignment="Center"
+            Command="{Binding ConfirmCommand}"
+            Content="Confirm"
+            IsDefault="True"
+            Style="{StaticResource NavigationButtonStyles}" />
+
+        <!--  Errors list  -->
+        <uc:ErrorsList
+            Grid.Row="8"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            MaxWidth="400"
+            HorizontalAlignment="Center"
+            Style="{StaticResource BaseStyles}" />
+
+    </Grid>
+</UserControl>

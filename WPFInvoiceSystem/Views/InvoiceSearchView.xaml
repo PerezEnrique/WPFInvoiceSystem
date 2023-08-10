@@ -1,0 +1,270 @@
+﻿<UserControl
+    x:Class="WPFInvoiceSystem.Views.InvoiceSearchView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:convrt="clr-namespace:WPFInvoiceSystem.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gif="http://wpfanimatedgif.codeplex.com"
+    xmlns:local="clr-namespace:WPFInvoiceSystem.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="clr-namespace:WPFInvoiceSystem.UserControls"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <convrt:BooleanToNoVisibilityConverter x:Key="BooleanToNoVisibility" />
+        <convrt:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <convrt:BooleanToYesConverter x:Key="BooleanToYes" />
+    </UserControl.Resources>
+    <DockPanel>
+
+        <StackPanel DockPanel.Dock="Top">
+
+            <!--  Title  -->
+            <TextBlock Style="{StaticResource TitleStyles}" Text="Invoice search" />
+
+            <!--  Search box  -->
+            <StackPanel Orientation="Horizontal" Style="{StaticResource BaseStyles}">
+
+                <TextBlock
+                    Margin="0,0,20,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource BaseStyles}"
+                    Text="Invoice number" />
+
+                <TextBox
+                    Width="150"
+                    Margin="0,0,20,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Button
+                    VerticalAlignment="Center"
+                    Command="{Binding SearchCommand}"
+                    Content="Search"
+                    Style="{StaticResource ActionButtonStyles}" />
+
+            </StackPanel>
+
+            <!--  Loading sppiner  -->
+            <Image
+                Height="350"
+                gif:ImageBehavior.AnimatedSource="pack://application:,,,/WPFInvoiceSystem;component/Resources/Images/loading-spinner.gif"
+                Style="{StaticResource SpinnerStyles}"
+                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}}" />
+
+            <!--  Invoice data  -->
+            <Grid Style="{StaticResource BaseStyles}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToNoVisibility}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Date: " />
+
+                    <TextBlock Text="{Binding FormatedDate}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Invoice number: " />
+
+                    <TextBlock Text="{Binding Invoice.InvoiceNumber}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Orientation="Horizontal">
+
+                    <TextBlock FontWeight="Bold" Text="Is paid: " />
+
+                    <TextBlock Text="{Binding Invoice.IsPaid, Converter={StaticResource BooleanToYes}}" />
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Customer: " />
+
+                    <TextBlock Text="{Binding Invoice.Customer.Name}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Identity card: " />
+
+                    <TextBlock Text="{Binding Invoice.Customer.IdentityCard}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Address: " />
+
+                    <TextBlock Text="{Binding Invoice.Customer.Address}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="6"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Phone: " />
+
+                    <TextBlock Text="{Binding Invoice.Customer.Phone}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Exempt: " />
+
+                    <TextBlock Text="{Binding Invoice.Exempt, StringFormat='$ {0}'}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Tax base: " />
+
+                    <TextBlock Text="{Binding Invoice.TaxBase, StringFormat='$ {0}'}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Tax: " />
+
+                    <TextBlock Text="{Binding Invoice.Tax, StringFormat='$ {0}'}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="6"
+                    Orientation="Horizontal"
+                    Style="{StaticResource BaseStyles}">
+
+                    <TextBlock FontWeight="Bold" Text="Total: " />
+
+                    <TextBlock Text="{Binding Invoice.Total, StringFormat='$ {0}'}" TextWrapping="Wrap" />
+
+                </StackPanel>
+
+            </Grid>
+
+            <!--  Invoice services  -->
+            <GroupBox
+                HorizontalAlignment="Center"
+                Header="Services"
+                Style="{StaticResource BaseStyles}"
+                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToNoVisibility}}">
+
+                <ListView
+                    Width="400"
+                    Height="150"
+                    Margin="0"
+                    ItemsSource="{Binding Invoice.Services}"
+                    Style="{StaticResource ItemsListStyles}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <uc:InvoiceServiceItemTemplate />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </GroupBox>
+
+        </StackPanel>
+
+        <!--  Bottom panel  -->
+        <StackPanel VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+
+            <!--  Error List  -->
+            <uc:ErrorsList Margin="100,0,100,10" />
+
+            <!--  Nav and actions buttons  -->
+            <StackPanel Orientation="Horizontal">
+
+                <Button
+                    Margin="0,0,40,10"
+                    Command="{Binding GoBackCommand}"
+                    Content="Go Back"
+                    Style="{StaticResource NavigationButtonStyles}" />
+
+                <Button
+                    Width="190"
+                    Margin="0,0,40,10"
+                    Command="{Binding TogglePaymentStatusCommand}"
+                    Content="Change payment status"
+                    Style="{StaticResource ActionButtonStyles}" />
+
+                <Button
+                    Margin="0,0,40,10"
+                    Command="{Binding GoToUpdateInvoiceFormCommand}"
+                    Content="Update Invoice"
+                    Style="{StaticResource ActionButtonStyles}" />
+
+                <Button
+                    Command="{Binding DeleteInvoiceCommand}"
+                    Content="Delete Invoice"
+                    Style="{StaticResource ActionButtonStyles}" />
+
+            </StackPanel>
+
+        </StackPanel>
+
+    </DockPanel>
+</UserControl>
