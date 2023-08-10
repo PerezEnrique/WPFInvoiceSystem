@@ -1,11 +1,17 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Prism.Ioc;
+using System;
+using System.IO;
+using System.Text;
 using System.Windows;
 using WPFInvoiceSystem.Domain;
 using WPFInvoiceSystem.Domain.Modals;
-using WPFInvoiceSystem.Persistance.Repositories;
+using WPFInvoiceSystem.Persistance;
+using WPFInvoiceSystem.Services;
 using WPFInvoiceSystem.Utils.Constants;
-using WPFInvoiceSystem.Utils.Validation;
+using WPFInvoiceSystem.Validation;
 using WPFInvoiceSystem.ViewModels;
 using WPFInvoiceSystem.Views;
 
@@ -18,6 +24,11 @@ namespace WPFInvoiceSystem
     {
         protected override Window CreateShell()
         {
+            using (var dbContext = new AppDbContext())
+            {
+                dbContext.Database.Migrate();
+            }
+
             return Container.Resolve<MainWindow>();
         }
 
@@ -53,7 +64,7 @@ namespace WPFInvoiceSystem
                 .RegisterForNavigation<InvoicesListView, InvoicesListViewModel>(name: ViewNames.InvoicesListView);
             containerRegistry
                 .RegisterForNavigation<ServiceSubformView, ServicesSubformViewModel>(name: ViewNames.ServiceSubformView);
-            
+
             containerRegistry
                 .RegisterSingleton<IUnitOfWork, UnitOfWork>();
         }
