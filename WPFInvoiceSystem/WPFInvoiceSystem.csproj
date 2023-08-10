@@ -4,6 +4,8 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <OutputType>WinExe</OutputType>
+	<PublishSingleFile>true</PublishSingleFile>
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	<RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
 	<ApplicationIcon>Resources\wpf-invoice-system-icon.ico</ApplicationIcon>
   </PropertyGroup>
