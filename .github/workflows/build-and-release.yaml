@@ -25,5 +25,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            /WPFInvoiceSystem/WPFInvoiceSystem/WPFInvoiceSystem/bin/Release/net7.0-windows/win-x64/publish/WPFInvoiceSystem.exe
-            /WPFInvoiceSystem/WPFInvoiceSystem/WPFInvoiceSystem/bin/Release/net7.0-windows/win-x64/publish/appsettings.json
+            */bin/Release/net7.0-windows/win-x64/publish/WPFInvoiceSystem.exe
+            */bin/Release/net7.0-windows/win-x64/publish/appsettings.json
