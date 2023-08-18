@@ -7,7 +7,7 @@
 	<PublishSingleFile>true</PublishSingleFile>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	<RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
-	<Version>0.1.0</Version>
+	<Version>0.1.2</Version>
 	<ApplicationIcon>Resources\wpf-invoice-system-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
@@ -41,8 +41,5 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".github\workflows\build-and-release.yaml" />
   </ItemGroup>
 </Project>
