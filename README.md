@@ -44,7 +44,7 @@ features that I decided not to include here.
 
 ## How to install?
 There are two ways you can try this project. You can generate the executable or download it directly 
-from here using the link in the Release section.
+from here using the link in the Releases section.
 
 If you want to generate the executable yourself, you need to have the .Net SDK installed on a 
 Windows machine and then follow these steps:
