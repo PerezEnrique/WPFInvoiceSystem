@@ -26,6 +26,7 @@ features that I decided not to include here.
 
 ### Key features
 
+- It follows MVVM architectural pattern
 - It uses the Prism library for an easier way of handling navigation.
 - It uses SQLite for data persistece so that the people who want to try this
   project can have their data in the desktop directory of their computers.
