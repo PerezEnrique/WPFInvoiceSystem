@@ -30,6 +30,7 @@ features that I decided not to include here.
 - It uses SQLite for data persistece so that the people who want to try this
   project can have their data in the desktop directory of their computers.
 - SQLite DB is managed through Entity Framework code-first approach.
+- Excel report generation with ClosedXML
 
 ### Technologies
 
