@@ -60,7 +60,7 @@ namespace WPFInvoiceSystem.ViewModels
             Errors = new ObservableCollection<string>();
 
             DeleteInvoiceCommand = new DelegateCommand(
-                executeMethod: () => DeleteInvoice(),
+                executeMethod: ConfirmInvoiceDeletion,
                 canExecuteMethod: () => SelectedInvoice != null && !IsLoading
                 )
                 .ObservesProperty(() => SelectedInvoice)
@@ -89,53 +89,85 @@ namespace WPFInvoiceSystem.ViewModels
                 .ObservesProperty(() => SelectedInvoice);
         }
 
-        private void DeleteInvoice()
+        public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            if (SelectedInvoice != null && !IsLoading)
+            return false;
+        }
+
+        public async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            try
             {
+                IsLoading = true;
+                await GetInvoices();
+            }
+            catch (Exception)
+            {
+                Errors.Add(UnexpectedErrorMessage.Message);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task GetInvoices()
+        {
+            Invoices.Clear();
+            var invoices = await Task.Run(() => _unitOfWork.InvoicesRepository
+                .GetAllWithCustomerData());
+            Invoices.AddRange(invoices);
+            GenerateReportCommand.RaiseCanExecuteChanged();
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            _unitOfWork.Dispose();
+        }
+
+        private void ConfirmInvoiceDeletion()
+        {
+            if (!IsLoading && SelectedInvoice != null)
+            {
+                Errors.Clear();
+
                 var dialogParams = new DialogParameters
                 {
                     { ParamKeys.Message, "You are about to delete the selected invoice. Are you sure you want to continue?" }
                 };
 
-                _dialogService.ShowDialog(DialogNames.ConfirmOperationDialog, dialogParams, async result =>
-                {
-                    if (result.Result == ButtonResult.OK)
-                    {
-                        IsLoading = true;
-                        
-                        Errors.Clear();
-                        try
-                        {
-                            _unitOfWork.InvoicesRepository.Remove(SelectedInvoice);
-                            await _unitOfWork.CompleteAsync();
-                            Invoices.Clear();
-                            Invoices.AddRange(await GetInvoices());
-                            GenerateReportCommand.RaiseCanExecuteChanged();
-                        }
-                        catch (Exception)
-                        {
-                            Errors.Add(UnexpectedErrorMessage.Message);
-                        }
-                        finally
-                        {
-                            IsLoading = false;
-                        }
-                    }
-                });
+                _dialogService.ShowDialog(DialogNames.ConfirmOperationDialog, dialogParams, async (result) => await DoDeleteInvoiceAndRefreshInvoices(result));
             }
         }
 
-        private async Task<IEnumerable<Invoice>> GetInvoices()
+        private async Task DoDeleteInvoiceAndRefreshInvoices(IDialogResult result)
         {
-            return await _unitOfWork.InvoicesRepository.GetAllWithCustomerData();
+            if (result.Result == ButtonResult.OK)
+            {
+                try
+                {
+                    IsLoading = true;
+
+                    _unitOfWork.InvoicesRepository.Remove(SelectedInvoice!);
+                    await _unitOfWork.CompleteAsync();
+                    await GetInvoices();
+                }
+                catch (Exception)
+                {
+                    Errors.Add(UnexpectedErrorMessage.Message);
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
+            }
         }
 
         private void GoToInvoiceForm(string submitAction)
         {
             var navParams = new NavigationParameters
             {
-                { ParamKeys.SumbitAction, submitAction } //Action to perform on submit
+                { ParamKeys.SumbitAction, submitAction }
             };
 
             if (submitAction == SubmitActions.Update)
@@ -157,29 +189,18 @@ namespace WPFInvoiceSystem.ViewModels
                 ViewNames.InvoiceSearchView);
         }
 
-        private void GenerateReport()
-        {
-            if(Invoices.Any())
-            {
-                ReportGenerator.Generate(Invoices);
-            }
-        }
-        
         private async Task TogglePaymentStatus()
         {
-            if (SelectedInvoice != null && !IsLoading)
+            if (!IsLoading && SelectedInvoice != null)
             {
-                IsLoading = true;
-
-                Errors.Clear();
-
                 try
                 {
+                    IsLoading = true;
+                    Errors.Clear();
+
                     SelectedInvoice.IsPaid = !SelectedInvoice.IsPaid;
                     await _unitOfWork.CompleteAsync();
-                    Invoices.Clear();
-                    Invoices.AddRange(await GetInvoices());
-                    GenerateReportCommand.RaiseCanExecuteChanged();
+                    await GetInvoices();
                 }
                 catch (Exception)
                 {
@@ -192,33 +213,11 @@ namespace WPFInvoiceSystem.ViewModels
             }
         }
 
-        //INavigationAware methods implementation
-        public bool IsNavigationTarget(NavigationContext navigationContext)
+        private void GenerateReport()
         {
-            return false;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            _unitOfWork.Dispose();
-        }
-
-        public async void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            IsLoading = true;
-
-            try
+            if(Invoices.Any())
             {
-                Invoices.AddRange(await Task.Run(async () => await GetInvoices()));
-                GenerateReportCommand.RaiseCanExecuteChanged();
-            }
-            catch (Exception)
-            {
-                Errors.Add(UnexpectedErrorMessage.Message);
-            }
-            finally
-            {
-                IsLoading = false;
+                ReportGenerator.Generate(Invoices);
             }
         }
     }
