@@ -37,6 +37,21 @@ namespace WPFInvoiceSystem.ViewModels
         }
 
 
+        public void OnDialogOpened(IDialogParameters parameters)
+        {
+            var message = parameters.GetValue<string>(ParamKeys.Message);
+            if (message != null) Message = message;
+        }
+
+        public bool CanCloseDialog()
+        {
+            return true;
+        }
+
+        public void OnDialogClosed()
+        {
+        }
+
         private void Confirm()
         {
             var result = ButtonResult.OK;
@@ -47,22 +62,6 @@ namespace WPFInvoiceSystem.ViewModels
         {
             var result = ButtonResult.Cancel;
             RequestClose?.Invoke(new DialogResult(result));
-        }
-
-        //INavigationAware methods implementation
-        public bool CanCloseDialog()
-        {
-            return true;
-        }
-
-        public void OnDialogClosed()
-        {
-        }
-
-        public void OnDialogOpened(IDialogParameters parameters)
-        {
-            var message = parameters.GetValue<string>(ParamKeys.Message);
-            if (message != null) Message = message;
         }
     }
 }
