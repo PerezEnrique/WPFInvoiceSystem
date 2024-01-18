@@ -19,8 +19,8 @@ namespace WPFInvoiceSystem.ViewModels
     {
         public readonly IDialogService _dialogService;
         private readonly IEventAggregator _eventAggregator;
-        public DelegateCommand AddServiceCommand { get; }
-        public DelegateCommand RemoveServiceCommand { get; }
+        public DelegateCommand AddServiceToInvoiceCommand { get; }
+        public DelegateCommand RemoveServiceFromInvoiceCommand { get; }
         public DelegateCommand ShowCreateServiceFormCommand { get; }
         public DelegateCommand ShowServiceSearchCommand { get; }
 
@@ -67,14 +67,14 @@ namespace WPFInvoiceSystem.ViewModels
             _serviceAdditionError = string.Empty;
             Quantity = 1;
 
-            AddServiceCommand = new DelegateCommand(
+            AddServiceToInvoiceCommand = new DelegateCommand(
                 executeMethod: AddServiceToInvoice,
                 canExecuteMethod: () => CreatedOrSearchedService != null && Quantity > 0
                 )
                 .ObservesProperty(() => CreatedOrSearchedService)
                 .ObservesProperty(() => Quantity);
 
-            RemoveServiceCommand = new DelegateCommand(
+            RemoveServiceFromInvoiceCommand = new DelegateCommand(
                 executeMethod: RemoveServiceFromInvoice,
                 canExecuteMethod: () => SelectedInvoiceService != null)
                 .ObservesProperty(() => SelectedInvoiceService);
@@ -91,7 +91,7 @@ namespace WPFInvoiceSystem.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _invoice = navigationContext.Parameters.GetValue<Invoice>(ParamKeys.Invoice);
+            _invoice = navigationContext.Parameters.GetValue<Invoice>(ParamKeys.FormProduct);
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)

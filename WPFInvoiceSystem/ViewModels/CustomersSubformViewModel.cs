@@ -50,7 +50,7 @@ namespace WPFInvoiceSystem.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _invoice = navigationContext.Parameters.GetValue<Invoice>(ParamKeys.Invoice);
+            _invoice = navigationContext.Parameters.GetValue<Invoice>(ParamKeys.FormProduct);
 
             if (_invoice != null)
             {
