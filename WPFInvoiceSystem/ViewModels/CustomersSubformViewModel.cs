@@ -32,10 +32,10 @@ namespace WPFInvoiceSystem.ViewModels
         {
             _dialogService = dialogService;
 
-            ShowCreateCustomerFormCommand = new DelegateCommand(ShowCreateCustomerForm);
+            ShowCreateCustomerFormCommand = new DelegateCommand(() => ShowCustomerForm(SubmitActions.Create));
 
             ShowEditCustomerFormCommand = new DelegateCommand(
-                executeMethod: ShowEditCustomerForm,
+                executeMethod: () => ShowCustomerForm(SubmitActions.Update),
                 canExecuteMethod: () => Customer != null
                 )
                 .ObservesProperty(() => Customer);
@@ -43,54 +43,9 @@ namespace WPFInvoiceSystem.ViewModels
             ShowCustomerSearchCommand = new DelegateCommand(ShowCustomerSearch);
         }
 
-
-        private void ShowCreateCustomerForm()
-        {
-            var dialogParams = new DialogParameters
-            {
-                { ParamKeys.SumbitAction, SubmitActions.Create }
-            };
-
-            _dialogService.ShowDialog(DialogNames.CustomersFormDialog, dialogParams, result => SetCustomer(result));
-        }
-
-        private void ShowCustomerSearch()
-        {
-            _dialogService.ShowDialog(DialogNames.CustomersSearchDialog, result => SetCustomer(result));
-        }
-
-        private void ShowEditCustomerForm()
-        {
-            var dialogParams = new DialogParameters
-            {
-                { ParamKeys.SumbitAction, SubmitActions.Update },
-                { ParamKeys.CustomerId, Customer?.Id }
-            };
-
-            _dialogService.ShowDialog(DialogNames.CustomersFormDialog, dialogParams, result => SetCustomer(result));
-        }
-
-        private void SetCustomer(IDialogResult result)
-        {
-            if (result.Result == ButtonResult.OK)
-            {
-                /*It sets Customer to null first, to force the property changed notification when editing,
-                 case where the customer coming from the dialog, references the same place 
-                 in memory as this view model Customer property*/
-                Customer = null;
-                Customer = result.Parameters.GetValue<Customer>(ParamKeys.Customer);
-                if (_invoice != null) _invoice.Customer = Customer;
-            }
-        }
-
-        //INavigationAware methods implementation
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -100,6 +55,40 @@ namespace WPFInvoiceSystem.ViewModels
             if (_invoice != null)
             {
                 Customer = _invoice.Customer;
+            }
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+
+        private void ShowCustomerForm(string submitAction)
+        {
+            var dialogParams = new DialogParameters
+            {
+                { ParamKeys.SumbitAction, submitAction }
+            };
+
+            if (submitAction == SubmitActions.Update)
+            {
+                dialogParams.Add(ParamKeys.CustomerId, Customer?.Id);
+            }
+
+            _dialogService.ShowDialog(DialogNames.CustomersFormDialog, dialogParams, result => SetCustomerOnPropertyAndInvoice(result));
+        }
+
+        private void ShowCustomerSearch()
+        {
+            _dialogService.ShowDialog(DialogNames.CustomersSearchDialog, result => SetCustomerOnPropertyAndInvoice(result));
+        }
+
+        private void SetCustomerOnPropertyAndInvoice(IDialogResult result)
+        {
+            if (result.Result == ButtonResult.OK)
+            {
+                Customer = null;
+                Customer = result.Parameters.GetValue<Customer>(ParamKeys.Customer);
+                if (_invoice != null) _invoice.Customer = Customer;
             }
         }
     }
