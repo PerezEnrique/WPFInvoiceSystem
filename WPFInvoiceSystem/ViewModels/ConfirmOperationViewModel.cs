@@ -29,7 +29,7 @@ namespace WPFInvoiceSystem.ViewModels
         
         public ConfirmOperationViewModel()
         {
-            _message = "¿Esta seguró que desea continuar?";
+            _message = "Are you sure you want to proceed?";
 
             ConfirmCommand = new DelegateCommand(Confirm);
 
