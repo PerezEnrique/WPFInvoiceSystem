@@ -26,7 +26,7 @@ namespace WPFInvoiceSystem.ViewModels
         public CustomersSearchViewModel(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             ConfirmCommand = new DelegateCommand(
-                executeMethod: Confirm,
+                executeMethod: GoBackAfterSelectItem,
                 canExecuteMethod: () => SelectedItem != null
                 )
                 .ObservesProperty(() => SelectedItem);
@@ -41,6 +41,18 @@ namespace WPFInvoiceSystem.ViewModels
                 .ObservesProperty(() => IsLoading);
         }
 
+        public void OnDialogOpened(IDialogParameters parameters)
+        {
+        }
+
+        public bool CanCloseDialog()
+        {
+            return true;
+        }
+
+        public void OnDialogClosed()
+        {
+        }
 
         private async Task CallSearchMethod(string searchCriterion)
         {
@@ -54,34 +66,20 @@ namespace WPFInvoiceSystem.ViewModels
                 await Search(c => c.IdentityCard.ToString() == Query);
             }
         }
-        private void Confirm()
-        {
-            var result = ButtonResult.OK;
 
-            //Set params to return
-            var dialogParams = new DialogParameters { { ParamKeys.Customer, SelectedItem } };
-
-            //Request dialog close
-            RequestClose?.Invoke(new DialogResult(result, dialogParams));
-        }
         private void GoBack()
         {
             var result = ButtonResult.Cancel;
             RequestClose?.Invoke(new DialogResult(result));
         }
 
-        //IDialogAware methods implementation
-        public bool CanCloseDialog()
+        private void GoBackAfterSelectItem()
         {
-            return true;
-        }
+            var result = ButtonResult.OK;
 
-        public void OnDialogClosed()
-        {
-        }
+            var dialogParams = new DialogParameters { { ParamKeys.Customer, SelectedItem } };
 
-        public void OnDialogOpened(IDialogParameters parameters)
-        {
+            RequestClose?.Invoke(new DialogResult(result, dialogParams));
         }
     }
 }
