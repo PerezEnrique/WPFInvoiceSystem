@@ -16,7 +16,7 @@
         <convrt:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
         <convrt:BooleanToYesConverter x:Key="BooleanToYes" />
     </UserControl.Resources>
-    <DockPanel>
+    <DockPanel Margin="50,0">
 
         <StackPanel DockPanel.Dock="Top">
 
@@ -71,137 +71,82 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
-                <StackPanel
+                <TextBlock
                     Grid.Row="0"
                     Grid.Column="0"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding FormatedDate, StringFormat='Date: {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Date: " />
-
-                    <TextBlock Text="{Binding FormatedDate}" TextWrapping="Wrap" />
-
-                </StackPanel>
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="0"
                     Grid.Column="2"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.InvoiceNumber, StringFormat='Invoice Number: {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Invoice number: " />
-
-                    <TextBlock Text="{Binding Invoice.InvoiceNumber}" TextWrapping="Wrap" />
-
-                </StackPanel>
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="0"
                     Grid.Column="4"
-                    Orientation="Horizontal">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.IsPaid, Converter={StaticResource BooleanToYes}, StringFormat='Is paid: {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Is paid: " />
-
-                    <TextBlock Text="{Binding Invoice.IsPaid, Converter={StaticResource BooleanToYes}}" />
-
-                </StackPanel>
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="1"
                     Grid.Column="0"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.Customer.Name, StringFormat='Customer: {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Customer: " />
-
-                    <TextBlock Text="{Binding Invoice.Customer.Name}" TextWrapping="Wrap" />
-
-                </StackPanel>
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="1"
                     Grid.Column="2"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.Customer.IdentityCard, StringFormat='Identity card: {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Identity card: " />
-
-                    <TextBlock Text="{Binding Invoice.Customer.IdentityCard}" TextWrapping="Wrap" />
-
-                </StackPanel>
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="1"
                     Grid.Column="4"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.Customer.Address, StringFormat='Address: {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Address: " />
-
-                    <TextBlock Text="{Binding Invoice.Customer.Address}" TextWrapping="Wrap" />
-
-                </StackPanel>
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="1"
                     Grid.Column="6"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.Customer.Phone, StringFormat='Phone: {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Phone: " />
-
-                    <TextBlock Text="{Binding Invoice.Customer.Phone}" TextWrapping="Wrap" />
-
-                </StackPanel>
-
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="2"
                     Grid.Column="0"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.Exempt, StringFormat='Exempt: $ {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Exempt: " />
-
-                    <TextBlock Text="{Binding Invoice.Exempt, StringFormat='$ {0}'}" TextWrapping="Wrap" />
-
-                </StackPanel>
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="2"
                     Grid.Column="2"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.TaxBase, StringFormat='Tax base: $ {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Tax base: " />
-
-                    <TextBlock Text="{Binding Invoice.TaxBase, StringFormat='$ {0}'}" TextWrapping="Wrap" />
-
-                </StackPanel>
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="2"
                     Grid.Column="4"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.Tax, StringFormat='Tax: $ {0}'}"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock FontWeight="Bold" Text="Tax: " />
-
-                    <TextBlock Text="{Binding Invoice.Tax, StringFormat='$ {0}'}" TextWrapping="Wrap" />
-
-                </StackPanel>
-
-                <StackPanel
+                <TextBlock
                     Grid.Row="2"
                     Grid.Column="6"
-                    Orientation="Horizontal"
-                    Style="{StaticResource BaseStyles}">
-
-                    <TextBlock FontWeight="Bold" Text="Total: " />
-
-                    <TextBlock Text="{Binding Invoice.Total, StringFormat='$ {0}'}" TextWrapping="Wrap" />
-
-                </StackPanel>
+                    Style="{StaticResource BaseStyles}"
+                    Text="{Binding Invoice.Total, StringFormat='Total: $ {0}'}"
+                    TextWrapping="Wrap" />
 
             </Grid>
 
@@ -233,7 +178,7 @@
         <StackPanel VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
 
             <!--  Error List  -->
-            <uc:ErrorsList Margin="100,0,100,10" />
+            <uc:ErrorsList />
 
             <!--  Nav and actions buttons  -->
             <StackPanel Orientation="Horizontal">
