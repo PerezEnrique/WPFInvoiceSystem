@@ -36,7 +36,7 @@ namespace WPFInvoiceSystem.ViewModels
             ServiceTypes = new ObservableCollection<ServiceType>();
 
             ConfirmCommand = new DelegateCommand(
-                executeMethod: Confirm,
+                executeMethod: GoBackAfterSelectItem,
                 canExecuteMethod: () => SelectedItem != null
                 )
                 .ObservesProperty(() => SelectedItem);
@@ -52,52 +52,12 @@ namespace WPFInvoiceSystem.ViewModels
         }
 
 
-        private void Confirm()
-        {
-            var result = ButtonResult.OK;
-
-            //Set params to return
-            var dialogParams = new DialogParameters { { ParamKeys.Service, SelectedItem } };
-
-            //Request dialog close
-            RequestClose?.Invoke(new DialogResult(result, dialogParams));
-        }
-
-        private async Task<IEnumerable<ServiceType>> GetServiceTypes()
-        {
-            return await _unitOfWork.ServiceTypesRepository.GetAll();
-        }
-
-        private void GoBack()
-        {
-            var result = ButtonResult.Cancel;
-            RequestClose?.Invoke(new DialogResult(result));
-        }
-
-        //IDialogAware methods implementation
-        public bool CanCloseDialog()
-        {
-            return true;
-        }
-
-        public void OnDialogClosed()
-        {
-        }
-
         public async void OnDialogOpened(IDialogParameters parameters)
         {
-            IsLoading = true;
-
             try
             {
-                ServiceTypes.AddRange(await Task.Run(async () => await GetServiceTypes()));
-
-                if (!ServiceTypes.Any())
-                {
-                    throw new Exception("Services types collection is empty");
-                }
-
-                SelectedType = ServiceTypes.FirstOrDefault();
+                IsLoading = true;
+                await GetServicesTypes();
             }
             catch (Exception)
             {
@@ -107,6 +67,37 @@ namespace WPFInvoiceSystem.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        private async Task GetServicesTypes()
+        {
+            var serviceTypes = await Task.Run(() => _unitOfWork.ServiceTypesRepository.GetAll());
+            ServiceTypes.AddRange(serviceTypes);
+            SelectedType = ServiceTypes.FirstOrDefault();
+        }
+
+        public bool CanCloseDialog()
+        {
+            return true;
+        }
+
+        public void OnDialogClosed()
+        {
+        }
+
+        private void GoBack()
+        {
+            var result = ButtonResult.Cancel;
+            RequestClose?.Invoke(new DialogResult(result));
+        }
+
+        private void GoBackAfterSelectItem()
+        {
+            var result = ButtonResult.OK;
+
+            var dialogParams = new DialogParameters { { ParamKeys.Service, SelectedItem } };
+
+            RequestClose?.Invoke(new DialogResult(result, dialogParams));
         }
     }
 }
