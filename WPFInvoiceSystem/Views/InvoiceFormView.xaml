@@ -17,7 +17,7 @@
         <convrt:BooleanToNoVisibilityConverter x:Key="BooleanToNoVisibility" />
         <convrt:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
     </UserControl.Resources>
-    <DockPanel>
+    <DockPanel Margin="50,0">
 
         <StackPanel DockPanel.Dock="Top">
 

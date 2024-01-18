@@ -16,10 +16,7 @@
     <StackPanel>
 
         <!--  Title  -->
-        <TextBlock
-            Margin="100,0,0,10"
-            Style="{StaticResource SubtitleStyles}"
-            Text="Invoice services" />
+        <TextBlock Style="{StaticResource SubtitleStyles}" Text="Invoice services" />
 
         <!--  Component  -->
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -63,13 +60,13 @@
 
                     <StackPanel>
 
-                        <TextBlock Style="{StaticResource BaseStyles}" Text="{Binding Service.Name, StringFormat='Name: {0}'}" />
+                        <TextBlock Style="{StaticResource BaseStyles}" Text="{Binding CreatedOrSearchedService.Name, StringFormat='Name: {0}'}" />
 
-                        <TextBlock Style="{StaticResource BaseStyles}" Text="{Binding Service.Type.Name, StringFormat='Type: {0}'}" />
+                        <TextBlock Style="{StaticResource BaseStyles}" Text="{Binding CreatedOrSearchedService.Type.Name, StringFormat='Type: {0}'}" />
 
-                        <TextBlock Style="{StaticResource BaseStyles}" Text="{Binding Service.IsExempt, Converter={StaticResource BooleanToYes}, StringFormat='Exempt: {0}'}" />
+                        <TextBlock Style="{StaticResource BaseStyles}" Text="{Binding CreatedOrSearchedService.IsExempt, Converter={StaticResource BooleanToYes}, StringFormat='Exempt: {0}'}" />
 
-                        <TextBlock Style="{StaticResource BaseStyles}" Text="{Binding Service.Price, StringFormat='Price: $ {0}'}" />
+                        <TextBlock Style="{StaticResource BaseStyles}" Text="{Binding CreatedOrSearchedService.Price, StringFormat='Price: $ {0}'}" />
 
                     </StackPanel>
 
@@ -94,7 +91,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 HorizontalAlignment="Center"
-                Command="{Binding AddServiceCommand}"
+                Command="{Binding AddServiceToInvoiceCommand}"
                 Content="Add"
                 Style="{StaticResource ActionButtonStyles}" />
 
@@ -110,7 +107,7 @@
                     Width="400"
                     Height="150"
                     Margin="0,0,0,10"
-                    ItemsSource="{Binding InvoiceServices}"
+                    ItemsSource="{Binding Invoice.Services}"
                     SelectedItem="{Binding SelectedInvoiceService}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -125,7 +122,7 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 HorizontalAlignment="Center"
-                Command="{Binding RemoveServiceCommand}"
+                Command="{Binding RemoveServiceFromInvoiceCommand}"
                 Content="Remove"
                 Style="{StaticResource ActionButtonStyles}" />
 
