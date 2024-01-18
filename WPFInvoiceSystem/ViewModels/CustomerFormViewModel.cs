@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,15 @@ using WPFInvoiceSystem.Utils.Constants;
 
 namespace WPFInvoiceSystem.ViewModels
 {
-    public class CustomerFormViewModel : BaseFormViewModel<Customer>, IDialogAware
+    public class CustomerFormViewModel : BindableBase, IDialogAware
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<Customer> _validator;
         private Customer _customer;
         public DelegateCommand ConfirmCommand { get; }
         public DelegateCommand GoBackCommand { get; }
         public string Title => "Invoice System - Customer Form";
+        public ObservableCollection<string> Errors { get; }
 
         private DateTime? _birthdate;
         public DateTime? Birthdate
@@ -41,6 +45,13 @@ namespace WPFInvoiceSystem.ViewModels
             set { SetProperty(ref _identityCard, value); }
         }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            private set { SetProperty(ref _isLoading, value); }
+        }
+
         private string _name;
         public string Name
         {
@@ -55,108 +66,57 @@ namespace WPFInvoiceSystem.ViewModels
             set { SetProperty(ref _phone, value); }
         }
 
+        private string _submitAction;
+        public string SubmitAction
+        {
+            get { return _submitAction; }
+            private set { SetProperty(ref _submitAction, value); }
+        }
+
         public event Action<IDialogResult>? RequestClose;
 
 
         public CustomerFormViewModel(
             IUnitOfWork unitOfWork,
             IValidator<Customer> validator
-            ) : base(unitOfWork, validator)
-                {
-                    _customer = new Customer();
-                    _name = string.Empty;
-                    _address = string.Empty;
-                    _phone = string.Empty;
+            )
+        {
+            _customer = new Customer();
+            _name = string.Empty;
+            _address = string.Empty;
+            _phone = string.Empty;
+            _submitAction = string.Empty;
+            _unitOfWork = unitOfWork;
+            _validator = validator;
+
+            Errors = new ObservableCollection<string>();
 
             ConfirmCommand = new DelegateCommand(
-                executeMethod: async () => await Submit(),
+                executeMethod: async () => await ValidateAndSubmit(),
                 canExecuteMethod: () => !IsLoading
                 )
                 .ObservesProperty(() => IsLoading);
 
             GoBackCommand = new DelegateCommand(GoBack);
-
-        }
-
-        private void GoBack()
-        {
-            var result = ButtonResult.Cancel;
-            RequestClose?.Invoke(new DialogResult(result));
-        }
-
-        //BaseFormViewModel methods overriding
-        protected override async Task<string?> AditionalValidation()
-        {
-            Customer? customer;
-
-            customer = await _unitOfWork.CustomersRepository.GetByIdentityCard(_customer.IdentityCard);
-            if (customer != null) return "A customer with that Identity card number already exists";
-
-            return null;
-        }
-
-        protected override Customer ComposeObjectToSave()
-        {
-            /*_customer here will be either a customer from db to update 
-            or a new customer object instanciated in the constructor*/
-            _customer.Address = Address;
-            _customer.Birthdate = Birthdate;
-            _customer.IdentityCard = IdentityCard;
-            _customer.Name = Name;
-            _customer.Phone = Phone;
-
-            return _customer;
-        }
-
-        protected override void OnSavingComplete()
-        {
-            //Set dialog result
-            var result = ButtonResult.OK;
-
-            //Set params to return
-            var dialogParams = new DialogParameters { { ParamKeys.Customer, _customer } };
-
-            //Request dialog close
-            RequestClose?.Invoke(new DialogResult(result, dialogParams));
-        }
-
-        //IDialogAware methods implementation
-        public bool CanCloseDialog()
-        {
-            return true;
-        }
-
-        public void OnDialogClosed()
-        {
         }
 
         public async void OnDialogOpened(IDialogParameters parameters)
         {
-            IsLoading = true;
 
             try
             {
+                IsLoading = true;
                 SubmitAction = parameters.GetValue<string>(ParamKeys.SumbitAction);
 
-                /*if the submit action is set to update and a valid id is received 
-                it replaces the object instanciated on the constructor with the result from the db*/
                 if (SubmitAction == SubmitActions.Update)
                 {
                     var customerId = parameters.GetValue<int>(ParamKeys.CustomerId);
-                    if (customerId <= 0)
-                    {
-                        throw new Exception("Id coming from params is invalid");
-                    }
-
                     var customerToUpdate = await Task.Run(async () => await _unitOfWork.CustomersRepository.Get(customerId));
 
                     if (customerToUpdate == null)
-                    {
                         throw new Exception("Couldn't find customer with provided Id");
-                    }
 
                     _customer = customerToUpdate;
-
                     Address = _customer.Address;
                     Birthdate = _customer.Birthdate;
                     IdentityCard = _customer.IdentityCard;
@@ -172,6 +132,87 @@ namespace WPFInvoiceSystem.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        public bool CanCloseDialog()
+        {
+            return true;
+        }
+
+        public void OnDialogClosed()
+        {
+        }
+
+        private void GoBack()
+        {
+            var result = ButtonResult.Cancel;
+            RequestClose?.Invoke(new DialogResult(result));
+        }
+
+        private async Task ValidateAndSubmit()
+        {
+            if(!IsLoading)
+            {
+                try
+                {
+                    IsLoading = true;
+                    Errors.Clear();
+
+                    _customer.Address = Address;
+                    _customer.Birthdate = Birthdate;
+                    _customer.IdentityCard = IdentityCard;
+                    _customer.Name = Name;
+                    _customer.Phone = Phone;
+
+                    if(SubmitAction == SubmitActions.Create)
+                    {
+                        if(await IdentityCardExistsAlready(_customer.IdentityCard))
+                        {
+                            Errors.Add("A customer with that Identity card number already exists");
+                            return;
+                        }
+                    }
+
+                    _validator.ValidateAndThrow(_customer);
+
+                    if (SubmitAction == SubmitActions.Create)
+                    {
+                        _unitOfWork.CustomersRepository.Add(_customer);
+                    }
+
+                    await _unitOfWork.CompleteAsync();
+
+                    GoBackAfterSubmit();
+                }
+                catch (Exception)
+                {
+                    Errors.Add(UnexpectedErrorMessage.Message);
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
+            }
+        }
+
+        private async Task<bool> IdentityCardExistsAlready(int identityCard)
+        {
+            var customerFromDb = await _unitOfWork.CustomersRepository
+                .GetByIdentityCard(identityCard);
+
+            if (customerFromDb != null)
+                return true;
+
+            return false;
+        }
+
+        private void GoBackAfterSubmit()
+        {
+            var result = ButtonResult.OK;
+
+            var dialogParams = new DialogParameters { { ParamKeys.Customer, _customer } };
+
+            RequestClose?.Invoke(new DialogResult(result, dialogParams));
         }
     }
 }
