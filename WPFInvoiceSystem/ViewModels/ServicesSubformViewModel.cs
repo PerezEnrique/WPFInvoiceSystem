@@ -19,26 +19,30 @@ namespace WPFInvoiceSystem.ViewModels
     {
         public readonly IDialogService _dialogService;
         private readonly IEventAggregator _eventAggregator;
-        private Invoice? _invoice;
         public DelegateCommand AddServiceCommand { get; }
         public DelegateCommand RemoveServiceCommand { get; }
         public DelegateCommand ShowCreateServiceFormCommand { get; }
         public DelegateCommand ShowServiceSearchCommand { get; }
-        public ObservableCollection<InvoiceService> InvoiceServices { get; private set; }
-       
-        private string _serviceAdditionError;
-        public string ServiceAdditionError
+
+        private Service? _createdOrSearchedService;
+        public Service? CreatedOrSearchedService
         {
-            get { return _serviceAdditionError; }
-            set { SetProperty(ref _serviceAdditionError, value); }
+            get { return _createdOrSearchedService; }
+            set { SetProperty(ref _createdOrSearchedService, value); }
         }
 
-        //Service added or searched 
-        private Service? _service;
-        public Service? Service
+        private Invoice? _invoice;
+        public Invoice? Invoice
         {
-            get { return _service; }
-            set { SetProperty(ref _service, value); }
+            get { return _invoice; }
+            set { SetProperty(ref _invoice, value); }
+        }
+
+        private int _quantity;
+        public int Quantity
+        {
+            get { return _quantity; }
+            set { SetProperty(ref _quantity, value); }
         }
 
         private InvoiceService? _selectedInvoiceService;
@@ -48,11 +52,11 @@ namespace WPFInvoiceSystem.ViewModels
             set { SetProperty(ref _selectedInvoiceService, value); }
         }
 
-        private int _quantity;
-        public int Quantity
+        private string _serviceAdditionError;
+        public string ServiceAdditionError
         {
-            get { return _quantity; }
-            set { SetProperty(ref _quantity, value); }
+            get { return _serviceAdditionError; }
+            set { SetProperty(ref _serviceAdditionError, value); }
         }
 
 
@@ -63,29 +67,63 @@ namespace WPFInvoiceSystem.ViewModels
             _serviceAdditionError = string.Empty;
             Quantity = 1;
 
-            InvoiceServices = new ObservableCollection<InvoiceService>();
-            
             AddServiceCommand = new DelegateCommand(
-                executeMethod: AddService,
-                canExecuteMethod: () => Service != null && Quantity > 0
+                executeMethod: AddServiceToInvoice,
+                canExecuteMethod: () => CreatedOrSearchedService != null && Quantity > 0
                 )
-                .ObservesProperty(() => Service)
+                .ObservesProperty(() => CreatedOrSearchedService)
                 .ObservesProperty(() => Quantity);
 
             RemoveServiceCommand = new DelegateCommand(
-                executeMethod: RemoveService,
+                executeMethod: RemoveServiceFromInvoice,
                 canExecuteMethod: () => SelectedInvoiceService != null)
                 .ObservesProperty(() => SelectedInvoiceService);
 
             ShowCreateServiceFormCommand = new DelegateCommand(ShowCreateService);
 
             ShowServiceSearchCommand = new DelegateCommand(ShowServiceSearch);
-
         }
 
-        private void AddService()
+        public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            if (Service != null)
+            return true;
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            _invoice = navigationContext.Parameters.GetValue<Invoice>(ParamKeys.Invoice);
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+
+        private void ShowCreateService()
+        {
+            _dialogService.ShowDialog(
+                        DialogNames.ServiceFormDialog,
+                        result => SetCreatedOrSearchedService(result));
+        }
+
+        private void ShowServiceSearch()
+        {
+            _dialogService.ShowDialog(
+                        DialogNames.ServiceSearchDialog,
+                        result => SetCreatedOrSearchedService(result));
+        }
+
+        private void SetCreatedOrSearchedService(IDialogResult result)
+        {
+            if (result.Result == ButtonResult.OK)
+            {
+                CreatedOrSearchedService = result.Parameters.GetValue<Service>(ParamKeys.Service);
+                ServiceAdditionError = string.Empty;
+            }
+        }
+
+        private void AddServiceToInvoice()
+        {
+            if (Invoice?.Services != null && CreatedOrSearchedService != null)
             {
                 if (ServiceAlreadyInCollection())
                 {
@@ -95,94 +133,40 @@ namespace WPFInvoiceSystem.ViewModels
 
                 var newInvoiceService = new InvoiceService()
                 {
-                    Service = Service, //Item shouldn't be null at this point. It's a requirement for triggering this method
+                    Service = CreatedOrSearchedService,
                     Quantity = Quantity,
                 };
 
-                InvoiceServices.Add(newInvoiceService);
-                Service = null;
-
-                // Update the _invoice.InvoiceServices collection.
-                if (_invoice != null) _invoice.Services = InvoiceServices;
-
-                //Publish the event 
-                _eventAggregator.GetEvent<InvoiceServicesModifiedEvent>()
-                        .Publish();
+                Invoice.Services.Add(newInvoiceService);
+                CreatedOrSearchedService = null;
+                OnCollectionModified();
             }
-        }
-
-        protected void RemoveService()
-        {
-            if (SelectedInvoiceService != null)
-            {
-                InvoiceServices.Remove(SelectedInvoiceService);
-                SelectedInvoiceService = null;
-
-                // Update the _invoice.InvoiceServices collection.
-                if (_invoice != null) _invoice.Services = InvoiceServices;
-
-                //Publish the event 
-                _eventAggregator.GetEvent<InvoiceServicesModifiedEvent>()
-                        .Publish();
-            }
-        }
-
-        private void ShowCreateService()
-        {
-            _dialogService.ShowDialog(
-                        DialogNames.ServiceFormDialog,
-                        result => SetService(result));
-        }
-
-        private void ShowServiceSearch()
-        {
-            _dialogService.ShowDialog(
-                        DialogNames.ServiceSearchDialog,
-                        result => SetService(result));
         }
 
         private bool ServiceAlreadyInCollection()
         {
-            foreach (var item in InvoiceServices)
+            foreach (var item in Invoice!.Services)
             {
-                if (item.Service.Id == Service!.Id) return true; //Item shouldn't be null at this point. It's a requirement for triggering this metho
+                if (item.Service.Id == CreatedOrSearchedService!.Id) return true;
             }
 
             return false;
         }
 
-        private void SetService(IDialogResult result)
+        protected void RemoveServiceFromInvoice()
         {
-            if (result.Result == ButtonResult.OK)
+            if (Invoice?.Services != null && SelectedInvoiceService != null)
             {
-                Service = result.Parameters.GetValue<Service>(ParamKeys.Service);
-                ServiceAdditionError = string.Empty;
+                Invoice.Services.Remove(SelectedInvoiceService);
+                SelectedInvoiceService = null;
+                OnCollectionModified();
             }
         }
 
-        //INavigationAware methods implementation
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        private void OnCollectionModified()
         {
-            _invoice = navigationContext.Parameters.GetValue<Invoice>(ParamKeys.Invoice);
-
-            /*If the invoice from params has services attached to it, that collection is setted
-             here to the InvoiceService property and then publish the event*/
-            if (_invoice != null && _invoice.Services.Any())
-            {
-                InvoiceServices = _invoice.Services;
-
-                _eventAggregator.GetEvent<InvoiceServicesModifiedEvent>()
+            _eventAggregator.GetEvent<InvoiceServicesModifiedEvent>()
                     .Publish();
-            }
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
         }
     }
 }
