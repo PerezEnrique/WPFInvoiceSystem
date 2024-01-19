@@ -1,18 +1,18 @@
 ﻿using ClosedXML.Excel;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPFInvoiceSystem.Domain;
 using WPFInvoiceSystem.Domain.Modals;
 
-namespace WPFInvoiceSystem.Utils.Helpers
+namespace WPFInvoiceSystem.Libraries
 {
-    public static class ReportGenerator
+    public class ReportsGenerator : IReportsGenerator
     {
-        public static void Generate(ObservableCollection<Invoice> invoices)
+        public void GenerateInvoicesReport(IList<Invoice> invoices) 
         {
             using var workbook = new XLWorkbook();
 
@@ -47,7 +47,7 @@ namespace WPFInvoiceSystem.Utils.Helpers
             //Table rows
             var tableInitialRow = 5;
 
-            for(var i = 0; i < invoices.Count; i++)
+            for (var i = 0; i < invoices.Count; i++)
             {
                 var invoiceNumberCell = sheet.Cell($"B{tableInitialRow + i}");
                 var dateCell = sheet.Cell($"C{tableInitialRow + i}");

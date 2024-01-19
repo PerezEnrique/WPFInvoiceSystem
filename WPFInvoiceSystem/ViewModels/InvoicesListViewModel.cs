@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using WPFInvoiceSystem.Domain;
 using WPFInvoiceSystem.Domain.Modals;
 using WPFInvoiceSystem.Utils.Constants;
-using WPFInvoiceSystem.Utils.Helpers;
 
 namespace WPFInvoiceSystem.ViewModels
 {
@@ -19,6 +18,7 @@ namespace WPFInvoiceSystem.ViewModels
     {
         public readonly IDialogService _dialogService;
         private readonly IRegionManager _regionManager;
+        private readonly IReportsGenerator _reportsGenerator;
         private readonly IUnitOfWork _unitOfWork;
         public DelegateCommand DeleteInvoiceCommand { get; }
         public DelegateCommand GoToNewInvoiceFormCommand { get; }
@@ -50,11 +50,16 @@ namespace WPFInvoiceSystem.ViewModels
         }
 
 
-        public InvoicesListViewModel(IDialogService dialogService, IRegionManager regionManager, IUnitOfWork unitOfWork)
+        public InvoicesListViewModel(
+            IDialogService dialogService, 
+            IRegionManager regionManager,
+            IReportsGenerator reportsGenerator,
+            IUnitOfWork unitOfWork)
         {
             _dialogService = dialogService;
             _invoices = new ObservableCollection<Invoice>();
             _regionManager = regionManager;
+            _reportsGenerator = reportsGenerator;
             _unitOfWork = unitOfWork;
 
             Errors = new ObservableCollection<string>();
@@ -217,7 +222,7 @@ namespace WPFInvoiceSystem.ViewModels
         {
             if(Invoices.Any())
             {
-                ReportGenerator.Generate(Invoices);
+                _reportsGenerator.GenerateInvoicesReport(Invoices);
             }
         }
     }
