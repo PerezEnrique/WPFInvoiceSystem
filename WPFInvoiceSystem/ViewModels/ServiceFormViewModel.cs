@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -15,20 +16,29 @@ using WPFInvoiceSystem.Utils.Constants;
 
 namespace WPFInvoiceSystem.ViewModels
 {
-    public class ServiceFormViewModel : BaseFormViewModel<Service>, IDialogAware
+    public class ServiceFormViewModel : BindableBase, IDialogAware
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<Service> _validator;
         private Service _service;
         public DelegateCommand ConfirmCommand { get; }
         public DelegateCommand GoBackCommand { get; }
         public string Title => "Invoice System - Service Form";
+        public ObservableCollection<string> Errors { get; }
         public ObservableCollection<ServiceType> ServicesTypes { get; }
-
 
         private bool _isExempt;
         public bool IsExempt
         {
             get { return _isExempt; }
             set { SetProperty(ref _isExempt, value); }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            private set { SetProperty(ref _isLoading, value); }
         }
 
         private string _name;
@@ -58,14 +68,18 @@ namespace WPFInvoiceSystem.ViewModels
 
         public ServiceFormViewModel(
             IUnitOfWork unitOfWork,
-            IValidator<Service> validator) : base(unitOfWork, validator)
+            IValidator<Service> validator)
         {
             _name = string.Empty;
             _service = new Service();
+            _validator = validator;
+            _unitOfWork = unitOfWork;
+
+            Errors = new ObservableCollection<string>();
             ServicesTypes = new ObservableCollection<ServiceType>();
 
             ConfirmCommand = new DelegateCommand(
-                executeMethod: async () => await Submit(),
+                executeMethod: async () => await ValidateAndSubmit(),
                 canExecuteMethod: () => SelectedType != null && !IsLoading
                 )
                 .ObservesProperty(() => SelectedType)
@@ -75,70 +89,13 @@ namespace WPFInvoiceSystem.ViewModels
         }
 
 
-        private async Task<IEnumerable<ServiceType>> GetServiceTypes()
-        {
-            return await _unitOfWork.ServiceTypesRepository.GetAll();
-        }
-
-        private void GoBack()
-        {
-            var result = ButtonResult.Cancel;
-            RequestClose?.Invoke(new DialogResult(result));
-        }
-
-        protected override Task<string?> AditionalValidation()
-        {
-            return Task.FromResult<string?>(null);
-        }
-
-        protected override Service ComposeObjectToSave()
-        {
-            _service.Name = Name;
-            _service.Price = Price;
-            _service.Type = SelectedType; //If for some reason it's null, validation will trigger
-            _service.IsExempt = IsExempt;
-
-            //Validation is handled by base class
-
-            return _service;
-        }
-
-        protected override void OnSavingComplete()
-        {
-            //Set dialog result
-            var result = ButtonResult.OK;
-
-            //Set params to return
-            var dialogParams = new DialogParameters { { ParamKeys.Service, _service } };
-
-            //Request dialog close
-            RequestClose?.Invoke(new DialogResult(result, dialogParams));
-        }
-
-        //IDialogAware methods implementation
-        public bool CanCloseDialog()
-        {
-            return true;
-        }
-
-        public void OnDialogClosed()
-        {
-        }
-
         public async void OnDialogOpened(IDialogParameters parameters)
         {
-            IsLoading = true;
 
             try
             {
-                ServicesTypes.AddRange(await Task.Run(async () => await GetServiceTypes()));
-
-                if (!ServicesTypes.Any())
-                {
-                    throw new Exception("Service types collection is empty");
-                }
-
-                SelectedType = ServicesTypes.FirstOrDefault();
+                IsLoading = true;
+                await GetServicesTypes();
             }
             catch (Exception)
             {
@@ -148,6 +105,70 @@ namespace WPFInvoiceSystem.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        private async Task GetServicesTypes()
+        {
+            var serviceTypes = await Task.Run(() => _unitOfWork.ServiceTypesRepository.GetAll());
+            ServicesTypes.AddRange(serviceTypes);
+            SelectedType = ServicesTypes.FirstOrDefault();
+        }
+
+        public bool CanCloseDialog()
+        {
+            return true;
+        }
+
+        public void OnDialogClosed()
+        {
+        }
+
+        private void GoBack()
+        {
+            var result = ButtonResult.Cancel;
+            RequestClose?.Invoke(new DialogResult(result));
+        }
+
+        private async Task ValidateAndSubmit()
+        {
+            if(!IsLoading && SelectedType != null)
+            {
+                try
+                {
+                    IsLoading = true;
+                    Errors.Clear();
+
+                    _service.Name = Name;
+                    _service.Price = Price;
+                    _service.Type = SelectedType;
+                    _service.IsExempt = IsExempt;
+
+                    _validator.ValidateAndThrow(_service);
+
+                    _unitOfWork.ServicesRepository.Add(_service);
+
+                    await _unitOfWork.CompleteAsync();
+
+                    GoBackAfterSubmit();
+                }
+                catch (Exception)
+                {
+                    Errors.Add(UnexpectedErrorMessage.Message);
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
+            }
+        }
+
+        private void GoBackAfterSubmit()
+        {
+            var result = ButtonResult.OK;
+
+            var dialogParams = new DialogParameters { { ParamKeys.Service, _service } };
+
+            RequestClose?.Invoke(new DialogResult(result, dialogParams));
         }
     }
 }

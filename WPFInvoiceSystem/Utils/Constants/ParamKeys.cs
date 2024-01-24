@@ -10,6 +10,7 @@ namespace WPFInvoiceSystem.Utils.Constants
     {
         public const string Customer = nameof(Customer);
         public const string CustomerId = nameof(CustomerId);
+        public const string FormProduct = nameof(FormProduct);
         public const string Invoice = nameof(Invoice);
         public const string InvoiceId = nameof(InvoiceId);
         public const string Message = nameof(Message);

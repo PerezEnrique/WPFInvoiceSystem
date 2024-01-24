@@ -14,9 +14,6 @@
     d:DesignWidth="800"
     FontSize="16"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <convrt:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
-    </UserControl.Resources>
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -107,8 +104,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             gif:ImageBehavior.AnimatedSource="pack://application:,,,/WPFInvoiceSystem;component/Resources/Images/loading-spinner.gif"
-            Style="{StaticResource SpinnerStyles}"
-            Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}, ConverterParameter={x:Static constants:NoVisibilityModes.Hidden}}" />
+            Style="{StaticResource HiddenSpinnerStyles}" />
 
         <!--  Cancel and confirm buttons  -->
         <Button

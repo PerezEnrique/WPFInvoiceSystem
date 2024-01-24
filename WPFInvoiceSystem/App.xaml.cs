@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows;
 using WPFInvoiceSystem.Domain;
 using WPFInvoiceSystem.Domain.Modals;
+using WPFInvoiceSystem.Libraries;
 using WPFInvoiceSystem.Persistance;
 using WPFInvoiceSystem.Services;
 using WPFInvoiceSystem.Utils.Constants;
@@ -65,6 +66,9 @@ namespace WPFInvoiceSystem
             containerRegistry
                 .RegisterForNavigation<ServiceSubformView, ServicesSubformViewModel>(name: ViewNames.ServiceSubformView);
 
+
+            containerRegistry
+                .RegisterSingleton<IReportsGenerator, ReportsGenerator>();
             containerRegistry
                 .RegisterSingleton<IUnitOfWork, UnitOfWork>();
         }

@@ -71,7 +71,7 @@ namespace WPFInvoiceSystem.ViewModels
             Errors = new ObservableCollection<string>();
 
             DeleteInvoiceCommand = new DelegateCommand(
-                executeMethod: DeleteInvoice,
+                executeMethod: ConfirmInvoiceDeletion,
                 canExecuteMethod: () => Invoice != null && !IsLoading
                 )
                 .ObservesProperty(() => Invoice)
@@ -99,68 +99,30 @@ namespace WPFInvoiceSystem.ViewModels
         }
 
 
-        private void DeleteInvoice()
+        public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            if (Invoice != null && !IsLoading)
-            {
-                Errors.Clear();
-
-                var dialogParams = new DialogParameters
-                {
-                    { ParamKeys.Message, "You are about to delete the selected invoice. Are you sure you want to continue?" }
-                };
-
-                _dialogService.ShowDialog(DialogNames.ConfirmOperationDialog, dialogParams, async result =>
-                {
-                    if (result.Result == ButtonResult.OK)
-                    {
-                        IsLoading = true;
-                        try
-                        {
-                            _unitOfWork.InvoicesRepository.Remove(Invoice);
-                            await _unitOfWork.CompleteAsync();
-                            Invoice = null;
-                            FormatedDate = null;
-                            Query = default(int);
-                        }
-                        catch (Exception)
-                        {
-                            Errors.Add(UnexpectedErrorMessage.Message);
-                        }
-                        finally
-                        {
-                            IsLoading = false;
-                        }
-                    }
-                });
-            }
+            return false;
         }
 
-        private void GoToInvoiceForm()
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var navParams = new NavigationParameters
-            {
-                { ParamKeys.SumbitAction, SubmitActions.Update },
-                { ParamKeys.InvoiceId, Invoice?.Id }
-            };
+            _navigationJournal = navigationContext.NavigationService.Journal;
+        }
 
-            _regionManager.RequestNavigate(
-                RegionNames.ContentRegion,
-                ViewNames.InvoiceFormView,
-                navParams
-                );
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
 
         private async Task Search()
         {
-            if(!IsLoading)
+            if (!IsLoading)
             {
-                IsLoading = true;
-                Errors.Clear();
-
                 try
                 {
+                    IsLoading = true;
+                    Errors.Clear();
                     var invoice = await _unitOfWork.InvoicesRepository.GetByInvoiceNumberWithRelatedData(Query);
+                    
                     if (invoice == null)
                     {
                         Errors.Add("Sorry, we couldn't find any results");
@@ -181,22 +143,35 @@ namespace WPFInvoiceSystem.ViewModels
             }
         }
 
+        private void GoToInvoiceForm()
+        {
+            var navParams = new NavigationParameters
+            {
+                { ParamKeys.SumbitAction, SubmitActions.Update },
+                { ParamKeys.InvoiceId, Invoice?.Id }
+            };
+
+            _regionManager.RequestNavigate(
+                RegionNames.ContentRegion,
+                ViewNames.InvoiceFormView,
+                navParams
+                );
+        }
+
         private async Task TogglePaymentStatus()
         {
-            Errors.Clear();
-
             if (Invoice != null && !IsLoading)
             {
-                IsLoading = true;
-
                 try
                 {
+                    IsLoading = true;
+                    Errors.Clear();
                     Invoice.IsPaid = !Invoice.IsPaid;
                     await _unitOfWork.CompleteAsync();
-                    
+
                     //Invoice.IsPaid change won't be notified to View, the following lines will:
                     Query = Invoice.InvoiceNumber;
-                    Invoice = null; 
+                    Invoice = null;
                     IsLoading = false; //Because Search method needs IsLoading to be false to execute
                     SearchCommand.Execute();
                 }
@@ -211,19 +186,44 @@ namespace WPFInvoiceSystem.ViewModels
             }
         }
 
-        //INavigationAware methods implementation
-        public bool IsNavigationTarget(NavigationContext navigationContext)
+        private void ConfirmInvoiceDeletion()
         {
-            return false;
+            if (Invoice != null && !IsLoading)
+            {
+                Errors.Clear();
+
+                var dialogParams = new DialogParameters
+                {
+                    { ParamKeys.Message, "You are about to delete the selected invoice. Are you sure you want to continue?" }
+                };
+
+                _dialogService.ShowDialog(DialogNames.ConfirmOperationDialog, dialogParams, async (result) => await DoDeleteInvoice(result));
+            }
         }
 
-        public void OnNavigatedFrom(NavigationContext navigationContext)
+        private async Task DoDeleteInvoice(IDialogResult result)
         {
-        }
+            if (result.Result == ButtonResult.OK)
+            {
+                IsLoading = true;
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            _navigationJournal = navigationContext.NavigationService.Journal;
+                try
+                {
+                    _unitOfWork.InvoicesRepository.Remove(Invoice!);
+                    await _unitOfWork.CompleteAsync();
+                    Invoice = null;
+                    FormatedDate = null;
+                    Query = default(int);
+                }
+                catch (Exception)
+                {
+                    Errors.Add(UnexpectedErrorMessage.Message);
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
+            }
         }
     }
 }

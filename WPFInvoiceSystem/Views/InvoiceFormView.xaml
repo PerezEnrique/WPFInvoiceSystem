@@ -13,11 +13,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <convrt:BooleanToNoVisibilityConverter x:Key="BooleanToNoVisibility" />
-        <convrt:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
-    </UserControl.Resources>
-    <DockPanel>
+    <DockPanel Margin="50,0">
 
         <StackPanel DockPanel.Dock="Top">
 
@@ -32,10 +28,7 @@
             </TextBlock>
 
             <!--  Loading sppiner  -->
-            <Image
-                gif:ImageBehavior.AnimatedSource="pack://application:,,,/WPFInvoiceSystem;component/Resources/Images/loading-spinner.gif"
-                Style="{StaticResource SpinnerStyles}"
-                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}}" />
+            <Image gif:ImageBehavior.AnimatedSource="pack://application:,,,/WPFInvoiceSystem;component/Resources/Images/loading-spinner.gif" Style="{StaticResource SpinnerStyles}" />
 
             <!--  Form region  -->
             <ContentControl prism:RegionManager.RegionName="{x:Static constants:RegionNames.FormRegion}" Style="{StaticResource BaseStyles}" />
@@ -48,10 +41,7 @@
             <uc:ErrorsList Margin="100,0,100,10" />
 
             <!--  Invoice current values  -->
-            <Grid
-                HorizontalAlignment="Center"
-                Style="{StaticResource BaseStyles}"
-                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToNoVisibility}}">
+            <Grid HorizontalAlignment="Center" Style="{StaticResource CollapsedWhenLoadingStyles}">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />

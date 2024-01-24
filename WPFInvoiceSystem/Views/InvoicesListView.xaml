@@ -11,11 +11,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <convrt:BooleanToNoVisibilityConverter x:Key="BooleanToNoVisibility" />
-        <convrt:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
-    </UserControl.Resources>
-    <DockPanel>
+    <DockPanel Margin="50,0">
 
         <StackPanel DockPanel.Dock="Top">
 
@@ -26,14 +22,10 @@
             <Image
                 Height="350"
                 gif:ImageBehavior.AnimatedSource="pack://application:,,,/WPFInvoiceSystem;component/Resources/Images/loading-spinner.gif"
-                Style="{StaticResource SpinnerStyles}"
-                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}}" />
+                Style="{StaticResource SpinnerStyles}" />
 
             <!--  Component  -->
-            <Grid
-                HorizontalAlignment="Center"
-                Style="{StaticResource BaseStyles}"
-                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToNoVisibility}}">
+            <Grid HorizontalAlignment="Center" Style="{StaticResource CollapsedWhenLoadingStyles}">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -152,27 +144,31 @@
                     Style="{StaticResource NavigationButtonStyles}" />
             </Grid>
 
-            <uc:ErrorsList Margin="25,0,25,0" />
 
         </StackPanel>
 
         <StackPanel
-            Margin="25,0,25,10"
             VerticalAlignment="Bottom"
             DockPanel.Dock="Bottom"
-            Orientation="Horizontal">
+            Orientation="Vertical">
 
-            <Button
-                Margin="20,0,20,10"
-                Command="{Binding GoToInvoiceSearchCommand}"
-                Content="Search invoice"
-                Style="{StaticResource NavigationButtonStyles}" />
+            <uc:ErrorsList Style="{StaticResource BaseStyles}" />
 
-            <Button
-                Margin="0,0,20,10"
-                Command="{Binding GenerateReportCommand}"
-                Content="Generate report"
-                Style="{StaticResource NavigationButtonStyles}" />
+            <StackPanel Orientation="Horizontal">
+
+                <Button
+                    Margin="0,0,10,10"
+                    Command="{Binding GoToInvoiceSearchCommand}"
+                    Content="Search invoice"
+                    Style="{StaticResource NavigationButtonStyles}" />
+
+                <Button
+                    Margin="10,0,10,10"
+                    Command="{Binding GenerateReportCommand}"
+                    Content="Generate report"
+                    Style="{StaticResource NavigationButtonStyles}" />
+
+            </StackPanel>
 
         </StackPanel>
 

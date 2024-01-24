@@ -17,31 +17,38 @@ using WPFInvoiceSystem.Utils.Constants;
 
 namespace WPFInvoiceSystem.ViewModels
 {
-    public class InvoiceFormViewModel : BaseFormViewModel<Invoice>, INavigationAware
+    public class InvoiceFormViewModel : BaseParentFormViewModel<Invoice>, INavigationAware
     {
         private readonly IEventAggregator _eventAggregator;
-        private readonly List<string> _formSteps;
-        private readonly IRegionManager _regionManager;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<Invoice> _validator;
         private Invoice _invoice;
         private InvoiceServicesModifiedEvent _invoiceServicesModifiedEvent;
         private IRegionNavigationJournal? _navigationJournal;
         private decimal _standardTaxRate;
-
         public DelegateCommand ConfirmCommand { get; }
         public DelegateCommand GoBackCommand { get; }
-
-        private int _currentFormStep;
-        public int CurrentFormStep
-        {
-            get { return _currentFormStep; }
-            set { SetProperty(ref _currentFormStep, value); }
-        }
+        public ObservableCollection<string> Errors { get; }
 
         private decimal _exempt;
         public decimal Exempt
         {
             get { return Math.Round(_exempt, 2); }
             set { SetProperty(ref _exempt, value); }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            private set { SetProperty(ref _isLoading, value); }
+        }
+
+        private string _submitAction;
+        public string SubmitAction
+        {
+            get { return _submitAction; }
+            private set { SetProperty(ref _submitAction, value); }
         }
 
         private decimal _tax;
@@ -70,24 +77,72 @@ namespace WPFInvoiceSystem.ViewModels
             IUnitOfWork unitOfWork,
             IRegionManager regionManager,
             IEventAggregator eventAggregator,
-            IValidator<Invoice> validator) : base(unitOfWork, validator)
+            IValidator<Invoice> validator) : base(regionManager)
         {
-            _regionManager = regionManager;
             _eventAggregator = eventAggregator;
-            _formSteps = new List<string>();
             _invoice = new Invoice();
             _invoiceServicesModifiedEvent = _eventAggregator.GetEvent<InvoiceServicesModifiedEvent>();
-            _invoiceServicesModifiedEvent.Subscribe(CalculateInvoice);
+            _invoiceServicesModifiedEvent.Subscribe(PerformInvoiceInnerCalcsAndUpdateProperties);
             _standardTaxRate = ConfigurationService.StandardTaxRate;
+            _submitAction = string.Empty;
+            _unitOfWork = unitOfWork;
+            _validator = validator;
 
-            ConfirmCommand = new DelegateCommand(async () => await GoToNextStep());
-            GoBackCommand = new DelegateCommand(ReturnToPreviousStep);
+            Errors = new ObservableCollection<string>();
 
-            SetFormSteps();
+            ConfirmCommand = new DelegateCommand(
+                executeMethod: async () => await GoToNextStep(_invoice),
+                canExecuteMethod: () => !IsLoading)
+                .ObservesProperty(() => IsLoading);
+
+            GoBackCommand = new DelegateCommand(() => ReturnToPreviousStep(_invoice));
         }
 
 
-        private void CalculateInvoice()
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return false;
+        }
+
+        public async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            try
+            {
+                _navigationJournal = navigationContext.NavigationService.Journal;
+                SubmitAction = navigationContext.Parameters.GetValue<string>(ParamKeys.SumbitAction);
+                
+                if(SubmitAction == SubmitActions.Update)
+                {
+                    IsLoading = true;
+
+                    var invoiceId = navigationContext.Parameters.GetValue<int>(ParamKeys.InvoiceId);
+                    var invoiceToUpdate = await Task.Run(async () => await _unitOfWork.InvoicesRepository.GetWithRelatedData(invoiceId));
+
+                    if (invoiceToUpdate == null)
+                        throw new Exception("Couldn't find invoice with provided Id");
+
+                    _invoice = invoiceToUpdate;
+                    Exempt = _invoice.Exempt;
+                    Tax = _invoice.Tax;
+                    TaxBase = _invoice.TaxBase;
+                    Total = _invoice.Total;
+                }
+
+                PerformInvoiceInnerCalcsAndUpdateProperties();
+                GoToNextStep(_invoice);
+
+            }
+            catch (Exception)
+            {
+                Errors.Add(UnexpectedErrorMessage.Message);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private void PerformInvoiceInnerCalcsAndUpdateProperties()
         {
             _invoice.Calculate(_standardTaxRate);
 
@@ -95,91 +150,6 @@ namespace WPFInvoiceSystem.ViewModels
             TaxBase = _invoice.TaxBase;
             Tax = _invoice.Tax;
             Total = _invoice.Total;
-        }
-
-        private async Task GoToNextStep()
-        {
-
-            //if it's the last step it performs submit and returns
-            if (CurrentFormStep >= _formSteps.Count)
-            {
-                await Submit(); //Possibles exception trhown by Submit() are handled in base class
-
-                return; //A method to go back will be called in OnSavedComplete method (part of Submit() template "steps")
-            };
-
-            var navParams = new NavigationParameters
-            {
-                { ParamKeys.Invoice, _invoice }
-            };
-
-            /*Notice the navigation here happens on the FormRegion
-            not the Content Region used in most of the project*/
-            _regionManager.RequestNavigate(
-                RegionNames.FormRegion,
-                _formSteps[CurrentFormStep++],
-                navParams
-                );
-        }
-
-        private void ReturnToPreviousStep()
-        {
-            //If there's no more entry to return to, it will get out from the whole form 
-            if (CurrentFormStep - 1 <= 0)
-            {
-                _navigationJournal?.GoBack();
-                return;
-            }
-
-            //Else it will navigate to a previous step
-            var navParams = new NavigationParameters
-            {
-                { ParamKeys.Invoice, _invoice }
-            };
-
-            /*Notice the navigation here happens on the Form region
-             not the Content Region used in most of the project*/
-            _regionManager.RequestNavigate(
-                RegionNames.FormRegion,
-                _formSteps[--CurrentFormStep - 1],
-                navParams
-                );
-        }
-
-        private void SetFormSteps()
-        {
-            _formSteps.Add(ViewNames.InvoiceMetadataSubform);
-            _formSteps.Add(ViewNames.CustomerSubformView);
-            _formSteps.Add(ViewNames.ServiceSubformView);
-        }
-
-        //BaseFormViewModel methods overriding
-        protected override async Task<string?> AditionalValidation()
-        {
-            Invoice? invoice;
-            invoice = await _unitOfWork.InvoicesRepository.GetByInvoiceNumber(_invoice.InvoiceNumber);
-            if (invoice != null) return "Sorry an invoice with that number already exists";
-
-            return null;
-        }
-
-        protected override Invoice ComposeObjectToSave()
-        {
-            /*_invoice here will be either an invoice from db to update 
-            or a new invoice object instanciated in the constructor*/
-
-            return _invoice;
-        }
-
-        protected override void OnSavingComplete()
-        {
-            _navigationJournal?.GoBack();
-        }
-
-        //INavigationAware methods implementation
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return false;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
@@ -191,53 +161,62 @@ namespace WPFInvoiceSystem.ViewModels
             _regionManager.Regions.Remove(RegionNames.FormRegion);
         }
 
-        public async void OnNavigatedTo(NavigationContext navigationContext)
+        protected override void ExitForm()
         {
-            _navigationJournal = navigationContext.NavigationService.Journal;
+            _navigationJournal?.GoBack();
+        }
 
-            //Gets the action to perform on submit from params
-            SubmitAction = navigationContext.Parameters.GetValue<string>(ParamKeys.SumbitAction);
+        protected override void SetFormSteps()
+        {
+            _formSteps.Add(ViewNames.InvoiceMetadataSubform);
+            _formSteps.Add(ViewNames.CustomerSubformView);
+            _formSteps.Add(ViewNames.ServiceSubformView);
+        }
 
-            /*It will use the invoice obect created on the constructor but if
-            a valid Id is received when submit action is Update it gets the invoice from the db.*/
-            if(SubmitAction == SubmitActions.Update)
+        protected override async Task OnLastStepReached()
+        {
+            if(!IsLoading)
             {
-                IsLoading = true;
-
                 try
                 {
-                    var invoiceId = navigationContext.Parameters.GetValue<int>(ParamKeys.InvoiceId);
-                    if (invoiceId <= 0)
+                    IsLoading = true;
+                    Errors.Clear();
+
+                    if(SubmitAction == SubmitActions.Create)
                     {
-                        throw new Exception("Id coming from params is invalid");
+                        if (await InvoiceNumberExistsAlready(_invoice.InvoiceNumber))
+                        {
+                            Errors.Add("Sorry an invoice with that number already exists");
+                            return;
+                        }
                     }
 
-                    var invoiceToUpdate = await Task.Run(async () => await _unitOfWork.InvoicesRepository.GetWithRelatedData(invoiceId));
+                    _validator.ValidateAndThrow(_invoice);
 
-                    if (invoiceToUpdate == null)
+                    if (SubmitAction == SubmitActions.Create)
                     {
-                        throw new Exception("Couldn't find invoice with provided Id");
+                        _unitOfWork.InvoicesRepository.Add(_invoice);
                     }
 
-                    _invoice = invoiceToUpdate;
-                    Exempt = _invoice.Exempt;
-                    Tax = _invoice.Tax;
-                    TaxBase = _invoice.TaxBase;
-                    Total = _invoice.Total;
+                    await _unitOfWork.CompleteAsync();
+
+                    _navigationJournal!.GoBack();
                 }
                 catch (Exception)
                 {
                     Errors.Add(UnexpectedErrorMessage.Message);
                 }
-                finally
-                {
+                finally 
+                { 
                     IsLoading = false;
-
                 }
             }
+        }
 
-            GoToNextStep(); /*We know the very next step from here won't be the one calling
-                        async Submit() so we can use fire and forget here*/
+        private async Task<bool> InvoiceNumberExistsAlready(int invoiceNumber)
+        {
+            var invoice = await _unitOfWork.InvoicesRepository.GetByInvoiceNumber(invoiceNumber);
+            return invoice != null;
         }
     }
 }

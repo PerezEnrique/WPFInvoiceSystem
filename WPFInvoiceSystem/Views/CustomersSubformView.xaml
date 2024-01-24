@@ -15,10 +15,7 @@
     <StackPanel>
 
         <!--  Title  -->
-        <TextBlock
-            Margin="100,0,0,10"
-            Style="{StaticResource SubtitleStyles}"
-            Text="Invoice customer" />
+        <TextBlock Style="{StaticResource SubtitleStyles}" Text="Invoice customer" />
 
         <StackPanel HorizontalAlignment="Center">
 

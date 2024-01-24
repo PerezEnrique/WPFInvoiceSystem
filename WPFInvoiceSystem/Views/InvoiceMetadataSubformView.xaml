@@ -11,10 +11,7 @@
     <StackPanel>
 
         <!--  Title  -->
-        <TextBlock
-            Margin="100,0,0,10"
-            Style="{StaticResource SubtitleStyles}"
-            Text="Invoice data" />
+        <TextBlock Style="{StaticResource SubtitleStyles}" Text="Invoice data" />
 
         <!--  Form  -->
         <Grid HorizontalAlignment="Center">

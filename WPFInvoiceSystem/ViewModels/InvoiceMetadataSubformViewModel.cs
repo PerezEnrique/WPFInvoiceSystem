@@ -36,32 +36,25 @@ namespace WPFInvoiceSystem.ViewModels
             }
         }
 
-
         public InvoiceMetadataSubformViewModel()
         {
         }
 
-
-        //INavigationAware methods implementation
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
         }
 
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-
-        }
-
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _invoice = navigationContext.Parameters.GetValue<Invoice>(ParamKeys.Invoice);
+            _invoice = navigationContext.Parameters.GetValue<Invoice>(ParamKeys.FormProduct);
 
             if (_invoice != null)
             {
                 InvoiceNumber = _invoice.InvoiceNumber;
+                var invoiceDateHasBeenSet = _invoice.Date != DateTime.MinValue;
 
-                if (_invoice.Date != DateTime.MinValue)
+                if (invoiceDateHasBeenSet)
                 {
                     Date = _invoice.Date;
                 }
@@ -70,6 +63,10 @@ namespace WPFInvoiceSystem.ViewModels
                     Date = DateTime.Now;
                 }
             }
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
     }
 }
