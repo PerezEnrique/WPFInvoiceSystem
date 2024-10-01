@@ -5,7 +5,7 @@ namespace WPFInvoiceSystem.Domain.Entities
     public class Invoice
     {
         public int Id { get; set; }
-        public required virtual Customer Customer { get; set; }
+        public virtual required Customer Customer { get; set; }
         public DateTime Date { get; set; }
         public decimal Exempt { get; set; }
         public int InvoiceNumber { get; set; }
