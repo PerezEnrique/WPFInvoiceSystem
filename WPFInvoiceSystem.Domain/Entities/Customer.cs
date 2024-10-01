@@ -6,7 +6,7 @@ namespace WPFInvoiceSystem.Domain.Entities
     {
         public int Id { get; set; }
         public string Address { get; set; } = string.Empty;
-        public DateTime? Birthdate { get; set; }
+        public DateOnly? Birthdate { get; set; }
         public int IdentityCard { get; set; }
         private string _name = string.Empty;
         public required string Name
