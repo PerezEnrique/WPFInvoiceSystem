@@ -2,7 +2,6 @@
 {
     public record CustomerInputDto
     (
-        int Id,
         string Name,
         int IdentityCard,
         string Phone,
