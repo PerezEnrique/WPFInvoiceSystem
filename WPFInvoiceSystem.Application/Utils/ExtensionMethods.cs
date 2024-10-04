@@ -21,6 +21,7 @@ namespace WPFInvoiceSystem.Application.Utils
         public static InvoiceDto AsDto(this Invoice invoice)
         {
             return new InvoiceDto(
+                invoice.Id,
                 invoice.Customer.AsDto(),
                 invoice.Date,
                 new Collection<InvoiceServiceDto>(invoice.Services.Select(s => s.AsDto()).ToList())
