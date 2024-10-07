@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WPFInvoiceSystem.Application\WPFInvoiceSystem.Application.csproj" />
     <ProjectReference Include="..\WPFInvoiceSystem.Domain\WPFInvoiceSystem.Domain.csproj" />
   </ItemGroup>
 
