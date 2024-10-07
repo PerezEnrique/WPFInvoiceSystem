@@ -48,6 +48,24 @@ namespace WPFInvoiceSystem.Application.Services
             await _unitOfWork.CompleteAsync();
         }
 
+        public async Task<IEnumerable<InvoiceDto>> FindInvoices(InvoicesFilterDto filter)
+        {
+            filter.Validate();
+
+            IEnumerable<Invoice> invoices = await _unitOfWork.InvoicesRepository
+                .FindAsync(filter);
+
+            return invoices.Select(i => i.AsDto());
+        }
+
+        public async Task<IEnumerable<InvoiceDto>> GetLastTenInvoices()
+        {
+            IEnumerable<Invoice> invoices = await _unitOfWork.InvoicesRepository
+                .GetLastTenInvoices();
+
+            return invoices.Select(i => i.AsDto());
+        }
+
         public async Task<InvoiceDto> GetInvoice(int id)
         {
             Invoice? invoice = await _unitOfWork.InvoicesRepository
