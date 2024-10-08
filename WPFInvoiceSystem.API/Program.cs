@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WPFInvoiceSystem.API.ErrorHandling;
 using WPFInvoiceSystem.API.Mapping;
 using WPFInvoiceSystem.Application.Services;
 using WPFInvoiceSystem.Domain;
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<AppErrorHandler>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     var connectionString = builder
@@ -42,6 +45,6 @@ if(app.Environment.IsProduction())
     app.UseHttpsRedirection();
 }
 
+app.UseExceptionHandler();
 app.MapControllers();
-
 app.Run();
