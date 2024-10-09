@@ -4,7 +4,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Prism Application";
+        private string _title = "WPF Invoice System";
         public string Title
         {
             get { return _title; }
@@ -13,7 +13,6 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
 
         public MainWindowViewModel()
         {
-
         }
     }
 }

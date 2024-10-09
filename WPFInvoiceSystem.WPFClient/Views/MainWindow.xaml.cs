@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Prism.Regions;
+using System.Windows;
+using WPFInvoiceSystem.WPFClient.Utils.Constants;
 
 namespace WPFInvoiceSystem.WPFClient.Views
 {
@@ -7,9 +9,20 @@ namespace WPFInvoiceSystem.WPFClient.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        readonly IRegionManager _regionManager;
+        public MainWindow(IRegionManager regionManager)
         {
             InitializeComponent();
+            _regionManager = regionManager;
+            this.Loaded += NavigateToInitialView;
+        }
+
+        private void NavigateToInitialView(object sender, RoutedEventArgs e)
+        {
+            _regionManager.RequestNavigate(
+                RegionNames.MainRegion,
+                ViewNames.HomeView
+                );
         }
     }
 }

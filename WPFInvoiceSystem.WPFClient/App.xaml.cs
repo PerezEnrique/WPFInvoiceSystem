@@ -6,6 +6,7 @@ using System.Windows;
 using WPFInvoiceSystem.WPFClient.Abstractions;
 using WPFInvoiceSystem.WPFClient.DataProviders;
 using WPFInvoiceSystem.WPFClient.Utils;
+using WPFInvoiceSystem.WPFClient.Utils.Constants;
 using WPFInvoiceSystem.WPFClient.Views;
 
 namespace WPFInvoiceSystem.WPFClient
@@ -35,6 +36,8 @@ namespace WPFInvoiceSystem.WPFClient
             containerRegistry.Register<IInvoicesProvider, InvoicesProvider>();
             containerRegistry.Register<IServicesProvider, ServicesProvider>();
             containerRegistry.Register<IServiceTypesProvider, ServiceTypesProvider>();
+
+            containerRegistry.RegisterForNavigation<HomeView>(name: ViewNames.HomeView);
         }
 
         private static IConfiguration GetConfigurationService()
