@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using WPFInvoiceSystem.WPFClient.Abstractions;
 using WPFInvoiceSystem.WPFClient.ApiModels;
 using WPFInvoiceSystem.WPFClient.Exceptions;
-using WPFInvoiceSystem.WPFClient.Utils;
+using WPFInvoiceSystem.WPFClient.Utils.Constants;
 
 namespace WPFInvoiceSystem.WPFClient.DataProviders
 {

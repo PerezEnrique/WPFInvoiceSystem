@@ -1,4 +1,4 @@
-﻿namespace WPFInvoiceSystem.WPFClient.Utils
+﻿namespace WPFInvoiceSystem.WPFClient.Utils.Constants
 {
     public static class AppConstants
     {

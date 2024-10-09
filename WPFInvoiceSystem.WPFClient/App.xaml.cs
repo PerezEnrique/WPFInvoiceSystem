@@ -5,7 +5,6 @@ using System;
 using System.Windows;
 using WPFInvoiceSystem.WPFClient.Abstractions;
 using WPFInvoiceSystem.WPFClient.DataProviders;
-using WPFInvoiceSystem.WPFClient.Utils;
 using WPFInvoiceSystem.WPFClient.Utils.Constants;
 using WPFInvoiceSystem.WPFClient.Views;
 
