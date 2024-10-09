@@ -41,6 +41,30 @@ namespace WPFInvoiceSystem.API.Controllers
             return Ok();
         }
 
+        [HttpGet("by-identity-card/{identityCard}")]
+        public async Task<ActionResult<IEnumerable<CustomerResource>>> FindByIdentityCard(int identityCard)
+        {
+            IEnumerable<CustomerDto> customerDtos = await _customersService
+                .FindCustomerByIdentityCard(identityCard);
+
+            IEnumerable<CustomerResource> customerResources = _mapper
+                .Map<IEnumerable<CustomerResource>>(customerDtos);
+
+            return Ok(customerResources);
+        }
+
+        [HttpGet("name/{name}")]
+        public async Task<ActionResult<IEnumerable<CustomerResource>>> FindByName(string name)
+        {
+            IEnumerable<CustomerDto> customerDtos = await _customersService
+                .FindCustomersByName(name);
+
+            IEnumerable<CustomerResource> customerResources = _mapper
+                .Map<IEnumerable<CustomerResource>>(customerDtos);
+
+            return Ok(customerResources);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomerResource>> Get(int id)
         {
