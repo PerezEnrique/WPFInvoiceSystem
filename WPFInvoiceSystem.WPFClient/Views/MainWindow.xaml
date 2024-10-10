@@ -8,7 +8,8 @@
     Title="{Binding Title}"
     Width="525"
     Height="350"
-    prism:ViewModelLocator.AutoWireViewModel="True">
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    FontSize="16">
     <StackPanel Margin="20">
 
         <components:MainHeader Margin="0,0,0,20" />
