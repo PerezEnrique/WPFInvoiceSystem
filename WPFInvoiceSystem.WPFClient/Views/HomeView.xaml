@@ -38,6 +38,12 @@
                 Grid.Column="0"
                 Command="{Binding GoToInvoicesListCommand}"
                 Content="Invoices list" />
+
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                Command="{Binding GoToServiceTypesManagementCommand}"
+                Content="Service types management" />
         </Grid>
     </StackPanel>
 </UserControl>

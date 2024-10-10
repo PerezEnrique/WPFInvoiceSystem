@@ -38,6 +38,8 @@ namespace WPFInvoiceSystem.WPFClient
 
             containerRegistry.RegisterForNavigation<HomeView>(name: ViewNames.HomeView);
             containerRegistry.RegisterForNavigation<InvoicesView>(name: ViewNames.InvoicesView);
+            containerRegistry.RegisterForNavigation<ServiceTypesManagementView>(name: ViewNames.ServiceTypesManagementView);
+            containerRegistry.RegisterForNavigation<ServiceTypesFormView>(name: ViewNames.ServiceTypesFormView);
         }
 
         private static IConfiguration GetConfigurationService()

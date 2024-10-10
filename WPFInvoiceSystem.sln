@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFInvoiceSystem.Applicatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFInvoiceSystem.Persistance", "WPFInvoiceSystem.Persistance\WPFInvoiceSystem.Persistance.csproj", "{D6AAC507-11C2-42B5-BE78-4F1F620BBA1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFInvoiceSystem.API", "WPFInvoiceSystem.API\WPFInvoiceSystem.API.csproj", "{985E3798-E326-4629-94E4-0097113AF021}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFInvoiceSystem.API", "WPFInvoiceSystem.API\WPFInvoiceSystem.API.csproj", "{985E3798-E326-4629-94E4-0097113AF021}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFInvoiceSystem.WPFClient", "WPFInvoiceSystem.WPFClient\WPFInvoiceSystem.WPFClient.csproj", "{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,26 @@ Global
 		{985E3798-E326-4629-94E4-0097113AF021}.Release|x64.Build.0 = Release|Any CPU
 		{985E3798-E326-4629-94E4-0097113AF021}.Release|x86.ActiveCfg = Release|Any CPU
 		{985E3798-E326-4629-94E4-0097113AF021}.Release|x86.Build.0 = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|x64.Build.0 = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Debug|x86.Build.0 = Debug|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|ARM.Build.0 = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|ARM64.Build.0 = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|x64.ActiveCfg = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|x64.Build.0 = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|x86.ActiveCfg = Release|Any CPU
+		{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

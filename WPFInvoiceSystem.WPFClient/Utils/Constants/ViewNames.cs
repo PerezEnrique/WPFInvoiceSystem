@@ -4,5 +4,7 @@
     {
         public const string HomeView = nameof(HomeView);
         public const string InvoicesView = nameof(InvoicesView);
+        public const string ServiceTypesManagementView = nameof(ServiceTypesManagementView);
+        public const string ServiceTypesFormView = nameof(ServiceTypesFormView);
     }
 }
