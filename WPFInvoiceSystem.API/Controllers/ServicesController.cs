@@ -43,6 +43,18 @@ namespace WPFInvoiceSystem.API.Controllers
             return Ok();
         }
 
+        [HttpGet("name/{name}")]
+        public async Task<ActionResult<IEnumerable<ServiceResource>>> FindByName(string name)
+        {
+            IEnumerable<ServiceDto> servicesDto = await _servicesService
+                .FindByName(name);
+
+            IEnumerable<ServiceResource> serviceResources = _mapper
+                .Map<IEnumerable<ServiceResource>>(servicesDto);
+
+            return Ok(serviceResources);
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ServiceResource>>> GetAll()
         {
