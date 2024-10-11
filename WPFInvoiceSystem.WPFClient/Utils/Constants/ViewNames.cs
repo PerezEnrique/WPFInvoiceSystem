@@ -2,6 +2,8 @@
 {
     public static class ViewNames
     {
+        public const string CustomersFormView = nameof(CustomersFormView);
+        public const string CustomersSearchView = nameof(CustomersSearchView);
         public const string HomeView = nameof(HomeView);
         public const string InvoicesView = nameof(InvoicesView);
         public const string ServicesFormView = nameof(ServicesFormView);
