@@ -42,6 +42,12 @@
             <Button
                 Grid.Row="0"
                 Grid.Column="2"
+                Command="{Binding GoToServicesManagementCommand}"
+                Content="Services management" />
+
+            <Button
+                Grid.Row="0"
+                Grid.Column="4"
                 Command="{Binding GoToServiceTypesManagementCommand}"
                 Content="Service types management" />
         </Grid>

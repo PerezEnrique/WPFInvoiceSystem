@@ -18,6 +18,17 @@ namespace WPFInvoiceSystem.WPFClient.DataProviders
         {
         }
 
+        public async Task<IEnumerable<ServiceModel>> FindByName(string name)
+        {
+            return await ExecuteWithErrorHandling<IEnumerable<ServiceModel>>(async () =>
+            {
+                return await _httpClient
+                    .Get(AppConstants.DefaultHttpClientName)
+                    .Request(_apiEndpoint, "by-name", name)
+                    .GetJsonAsync<IEnumerable<ServiceModel>>();
+            });
+        }
+
         public async Task<IEnumerable<ServiceModel>> GetAll()
         {
             return await ExecuteWithErrorHandling<IEnumerable<ServiceModel>>(async () =>

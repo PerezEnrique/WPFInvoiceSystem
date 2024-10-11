@@ -9,6 +9,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
     {
         private readonly IRegionManager _regionManager;
         public DelegateCommand GoToInvoicesListCommand { get; set; }
+        public DelegateCommand GoToServicesManagementCommand { get; set; }
         public DelegateCommand GoToServiceTypesManagementCommand { get; set; }
 
         public HomeViewModel(IRegionManager regionManager)
@@ -19,6 +20,10 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
                 () => GoToView(ViewNames.InvoicesView)
                 );
 
+            GoToServicesManagementCommand = new DelegateCommand(
+                () => GoToView(ViewNames.ServicesManagementView)
+                );
+            
             GoToServiceTypesManagementCommand = new DelegateCommand(
                 () => GoToView(ViewNames.ServiceTypesManagementView)
                 );

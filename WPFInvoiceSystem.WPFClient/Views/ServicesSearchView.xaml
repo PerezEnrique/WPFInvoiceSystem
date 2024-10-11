@@ -1,0 +1,89 @@
+﻿<UserControl
+    x:Class="WPFInvoiceSystem.WPFClient.Views.ServicesSearchView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="clr-namespace:WPFInvoiceSystem.WPFClient.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WPFInvoiceSystem.WPFClient.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+        <StackPanel>
+
+            <TextBlock Style="{StaticResource TitleStyle}" Text="Search service" />
+
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Style="{StaticResource StandardTextBoxStyle}"
+                    Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="0,0,0,20"
+                    Command="{Binding SearchCommand}"
+                    Content="Search" />
+
+
+                <ListView
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    ItemsSource="{Binding Services}"
+                    SelectedItem="{Binding SelectedService}"
+                    Style="{StaticResource ResultItemsList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Name}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <components:FormButtons
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="0,20,0,20" />
+
+                <components:LoadingSpinner
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="0,20,0,20" />
+
+                <components:ErrorsList
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="0,20,0,20" />
+
+            </Grid>
+
+        </StackPanel>
+
+    </ScrollViewer>
+</UserControl>
