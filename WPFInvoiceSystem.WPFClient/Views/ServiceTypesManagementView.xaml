@@ -18,7 +18,7 @@
             <TextBlock
                 Margin="0,0,0,25"
                 Style="{StaticResource TitleStyle}"
-                Text="Service tyes managemente" />
+                Text="Service types management" />
 
             <ScrollViewer MaxHeight="450" ScrollViewer.VerticalScrollBarVisibility="Auto">
 
