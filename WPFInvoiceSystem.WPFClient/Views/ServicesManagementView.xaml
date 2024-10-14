@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <converters:BooleanToYesOrNoConverter x:Key="BooleanToYesOrNo" />
     </UserControl.Resources>
-    <DockPanel>
+    <DockPanel MaxWidth="1450">
 
         <StackPanel DockPanel.Dock="Top">
 

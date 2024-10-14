@@ -6,8 +6,8 @@
     xmlns:constants="clr-namespace:WPFInvoiceSystem.WPFClient.Utils.Constants"
     xmlns:prism="http://prismlibrary.com/"
     Title="{Binding Title}"
-    Width="525"
-    Height="350"
+    MinWidth="1200"
+    MinHeight="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     FontSize="16">
     <StackPanel Margin="20">
