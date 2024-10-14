@@ -22,6 +22,10 @@ namespace WPFInvoiceSystem.Application.Utils
         {
             return new InvoiceDto(
                 invoice.Id,
+                invoice.InvoiceNumber,
+                invoice.Exempt,
+                invoice.Tax,
+                invoice.TaxBase,
                 invoice.Customer.AsDto(),
                 invoice.Date,
                 new Collection<InvoiceServiceDto>(invoice.Services.Select(s => s.AsDto()).ToList())
