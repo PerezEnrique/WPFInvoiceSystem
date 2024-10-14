@@ -25,23 +25,25 @@
             <Label
                 Grid.Row="0"
                 Grid.Column="0"
+                Margin="0,0,0,15"
                 Content="Date" />
 
             <DatePicker
                 Grid.Row="0"
                 Grid.Column="2"
-                Margin="0,0,0,10"
+                Margin="0,0,0,15"
                 SelectedDate="{Binding Date}" />
 
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
+                Margin="0,0,0,15"
                 Content="Invoice Number" />
 
             <TextBox
                 Grid.Row="1"
                 Grid.Column="2"
-                Margin="0,0,0,10"
+                Margin="0,0,0,15"
                 HorizontalContentAlignment="Right"
                 Style="{StaticResource StandardTextBoxStyle}"
                 Text="{Binding InvoiceNumber, UpdateSourceTrigger=PropertyChanged}" />

@@ -10,10 +10,10 @@
     MinHeight="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     FontSize="16">
-    <StackPanel Margin="20">
+    <DockPanel Margin="20">
 
-        <components:MainHeader Margin="0,0,0,20" />
+        <components:MainHeader Margin="0,0,0,20" DockPanel.Dock="Top" />
 
         <ContentControl Margin="50,0" prism:RegionManager.RegionName="{x:Static constants:RegionNames.MainRegion}" />
-    </StackPanel>
+    </DockPanel>
 </Window>

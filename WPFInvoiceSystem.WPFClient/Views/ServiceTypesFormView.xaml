@@ -37,13 +37,13 @@
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
-                Margin="0,0,0,10"
+                Margin="0,0,0,15"
                 Content="Type name" />
 
             <TextBox
                 Grid.Row="1"
                 Grid.Column="2"
-                Margin="0,0,0,10"
+                Margin="0,0,0,15"
                 Style="{StaticResource StandardTextBoxStyle}"
                 Text="{Binding TypeName, UpdateSourceTrigger=PropertyChanged}" />
 

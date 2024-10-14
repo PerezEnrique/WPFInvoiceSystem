@@ -35,6 +35,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
+                    Margin="0,0,0,15"
                     Style="{StaticResource StandardTextBoxStyle}"
                     Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -45,7 +46,6 @@
                     Margin="0,0,0,20"
                     Command="{Binding SearchCommand}"
                     Content="Search" />
-
 
                 <ListView
                     Grid.Row="2"

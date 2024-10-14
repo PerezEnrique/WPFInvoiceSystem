@@ -36,54 +36,64 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="0"
+                    Margin="0,0,0,15"
                     Content="Customer name" />
 
                 <TextBox
                     Grid.Row="0"
                     Grid.Column="2"
+                    Margin="0,0,0,15"
                     Style="{StaticResource StandardTextBoxStyle}"
                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
+                    Margin="0,0,0,15"
                     Content="Identity card" />
 
                 <TextBox
                     Grid.Row="1"
                     Grid.Column="2"
+                    Margin="0,0,0,15"
                     Style="{StaticResource StandardTextBoxStyle}"
                     Text="{Binding IdentityCard, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
+                    Margin="0,0,0,15"
                     Content="Address" />
 
                 <TextBox
                     Grid.Row="2"
                     Grid.Column="2"
+                    Margin="0,0,0,15"
                     Style="{StaticResource StandardTextBoxStyle}"
                     Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
+                    Margin="0,0,0,15"
                     Content="Phone" />
 
                 <TextBox
                     Grid.Row="3"
                     Grid.Column="2"
+                    Margin="0,0,0,15"
                     Style="{StaticResource StandardTextBoxStyle}"
                     Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label
                     Grid.Row="4"
                     Grid.Column="0"
+                    Margin="0,0,0,15"
                     Content="Birthdate" />
                 <DatePicker
                     Grid.Row="4"
                     Grid.Column="2"
+                    Margin="0,0,0,15"
                     SelectedDate="{Binding Birthdate}" />
 
                 <components:FormButtons
