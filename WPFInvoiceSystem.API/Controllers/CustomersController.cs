@@ -53,7 +53,7 @@ namespace WPFInvoiceSystem.API.Controllers
             return Ok(customerResources);
         }
 
-        [HttpGet("name/{name}")]
+        [HttpGet("by-name/{name}")]
         public async Task<ActionResult<IEnumerable<CustomerResource>>> FindByName(string name)
         {
             IEnumerable<CustomerDto> customerDtos = await _customersService
