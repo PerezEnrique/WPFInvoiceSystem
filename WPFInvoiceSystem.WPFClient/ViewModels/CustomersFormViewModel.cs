@@ -39,8 +39,8 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
             set { SetProperty(ref _address, value); }
         }
 
-        private DateOnly? _birthdate;
-        public DateOnly? Birthdate
+        private DateTime? _birthdate;
+        public DateTime? Birthdate
         {
             get { return _birthdate; }
             set { SetProperty(ref _birthdate, value); }
@@ -149,6 +149,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
             _customerToBeUpdated = await _customersProvider.Get(id);
 
             Address = _customerToBeUpdated.Address;
+            Birthdate = _customerToBeUpdated.Birthdate?.ToDateTime(TimeOnly.MinValue);
             IdentityCard = _customerToBeUpdated.IdentityCard;
             Name = _customerToBeUpdated.Name;
             Phone = _customerToBeUpdated.Phone;
@@ -166,7 +167,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
                     IdentityCard,
                     Phone,
                     Address,
-                    Birthdate
+                    Birthdate: Birthdate != null ? DateOnly.FromDateTime((DateTime)Birthdate) : null
                     );
 
                 CustomerModel customer;
