@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPFInvoiceSystem.WPFClient.ViewModels;
 
 namespace WPFInvoiceSystem.WPFClient.Views
 {
@@ -23,6 +24,22 @@ namespace WPFInvoiceSystem.WPFClient.Views
         public InvoicesView()
         {
             InitializeComponent();
+        }
+
+        private void Delete_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var confimationDialogResult = MessageBox.Show(
+                messageBoxText: "Are ypu sure you want to delete the selected item",
+                caption: "WPF Invoice System - Delete item",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+                );
+
+            if (confimationDialogResult == MessageBoxResult.Yes)
+            {
+                ((InvoicesViewModel)this.DataContext)
+                    .DeleteInvoiceCommand.Execute();
+            }
         }
     }
 }
