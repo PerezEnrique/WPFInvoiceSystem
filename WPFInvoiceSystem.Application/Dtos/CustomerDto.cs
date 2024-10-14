@@ -6,6 +6,6 @@
         int IdentityCard,
         string Phone,
         string Address,
-        DateOnly? Birthday
+        DateOnly? Birthdate
         );
 }
