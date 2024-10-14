@@ -253,7 +253,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
             Exempt = _invoiceToBeUpdated.Exempt;
             Tax = _invoiceToBeUpdated.Tax;
             TaxBase = _invoiceToBeUpdated.TaxBase;
-            InvoiceServices.AddRange(_invoiceToBeUpdated.Services);
+            InvoiceServices.AddRange(_invoiceToBeUpdated.InvoiceServices);
         }
 
         private void CloseForm()
