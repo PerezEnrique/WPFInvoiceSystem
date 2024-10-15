@@ -1,4 +1,6 @@
-﻿namespace WPFInvoiceSystem.WPFClient.Utils.Enums
+﻿using System.ComponentModel;
+
+namespace WPFInvoiceSystem.WPFClient.Utils.Enums
 {
     public enum ListContents
     {

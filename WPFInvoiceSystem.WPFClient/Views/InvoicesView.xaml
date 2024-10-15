@@ -14,6 +14,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:BooleanToYesOrNoConverter x:Key="BooleanToYesNo" />
+        <converters:ListContentToReadableConverter x:Key="ListContentToReadable" />
     </UserControl.Resources>
     <DockPanel MaxWidth="1450">
 
@@ -83,7 +84,7 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
                             Margin="0,0,0,10"
-                            Text="{Binding ListCurrentlyShowing, StringFormat='Currently showing {0}'}" />
+                            Text="{Binding ListCurrentlyShowing, Converter={StaticResource ListContentToReadable}, StringFormat='Currently showing {0}'}" />
 
                         <ListView
                             Grid.Row="1"
