@@ -48,8 +48,8 @@ namespace WPFInvoiceSystem.API.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<InvoiceResource>>> FindInternalInvoices([FromQuery] InvoicesFilterResource filter)
+        [HttpGet("find")]
+        public async Task<ActionResult<IEnumerable<InvoiceResource>>> FindInvoices([FromQuery] InvoicesFilterResource filter)
         {
             InvoicesFilterDto filterDto = _mapper.Map<InvoicesFilterDto>(filter);
 
