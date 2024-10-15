@@ -18,6 +18,15 @@ namespace WPFInvoiceSystem.Application.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task ChangeInvoicePaymentStatus(int id)
+        {
+            Invoice invoice = await GetInvoiceAsEntity(id);
+
+            invoice.IsPaid = !invoice.IsPaid;
+
+            await _unitOfWork.CompleteAsync();
+        }
+
         public async Task<InvoiceDto> CreateInvoice(InvoiceInputDto invoiceData)
         {
             await EnsureInvoiceNumberIsNotRegisteredAlready(invoiceData.InvoiceNumber);
@@ -72,7 +81,7 @@ namespace WPFInvoiceSystem.Application.Services
                 .GetAsync(id);
 
             if (invoice == null)
-                throw new CoreNotFoundException("No se encontró la factura con el id provisto");
+                throw new CoreNotFoundException($"Couldn't find customer with the id {id}");
 
             return invoice.AsDto();
         }

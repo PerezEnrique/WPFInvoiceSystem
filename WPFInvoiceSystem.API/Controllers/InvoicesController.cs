@@ -19,6 +19,14 @@ namespace WPFInvoiceSystem.API.Controllers
             _mapper = mapper;
         }
 
+        [HttpPatch("change-payment-status/{id}")]
+        public async Task<IActionResult> ChangeInvoicePaymentStatus(int id)
+        {
+            await _invoicesService.ChangeInvoicePaymentStatus(id);
+
+            return Ok();
+        }
+
         [HttpPost]
         public async Task<ActionResult<InvoiceResource>> Create(InvoiceInputResource invoiceData)
         {

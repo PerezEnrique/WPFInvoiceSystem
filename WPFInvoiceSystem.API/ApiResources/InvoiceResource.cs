@@ -8,6 +8,7 @@ namespace WPFInvoiceSystem.API.ApiResources
         decimal Exempt,
         decimal Tax,
         decimal TaxBase,
+        bool IsPaid,
         CustomerResource Customer,
         DateTime Date,
         Collection<InvoiceServiceResource> InvoiceServices

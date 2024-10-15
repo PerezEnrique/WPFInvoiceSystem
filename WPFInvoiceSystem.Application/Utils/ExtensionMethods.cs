@@ -26,6 +26,7 @@ namespace WPFInvoiceSystem.Application.Utils
                 invoice.Exempt,
                 invoice.Tax,
                 invoice.TaxBase,
+                invoice.IsPaid,
                 invoice.Customer.AsDto(),
                 invoice.Date,
                 new Collection<InvoiceServiceDto>(invoice.Services.Select(s => s.AsDto()).ToList())

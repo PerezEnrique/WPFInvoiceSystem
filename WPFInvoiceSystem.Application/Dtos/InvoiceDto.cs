@@ -8,6 +8,7 @@ namespace WPFInvoiceSystem.Application.Dtos
         decimal Exempt,
         decimal Tax,
         decimal TaxBase,
+        bool IsPaid,
         CustomerDto Customer,
         DateTime Date,
         Collection<InvoiceServiceDto> InvoiceServices
