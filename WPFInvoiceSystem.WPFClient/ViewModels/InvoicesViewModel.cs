@@ -78,14 +78,12 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
             set { SetProperty(ref _selectedInvoice, value); }
         }
 
+        public DelegateCommand ChangeInvoicePaymentStatusCommand { get; }
         public DelegateCommand DeleteInvoiceCommand { get; }
         public DelegateCommand GoBackCommand { get; }
         public DelegateCommand GoToInvoiceCreationFormCommand { get; }
         public DelegateCommand GoToInvoiceModificationFormCommand { get; }
-        public DelegateCommand GoToInvoicePaymentsCommand { get; }
         public DelegateCommand GoToCustomerSearchCommand { get; set; }
-        public DelegateCommand PrintIncomeByServiceReportCommand { get; }
-        public DelegateCommand PrintSellsReportCommand { get; }
         public DelegateCommand QueryWithFilterCommand { get; set; }
 
         public InvoicesViewModel(
@@ -103,6 +101,13 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
 
             Errors = new ObservableCollection<string>();
             Invoices = new ObservableCollection<InvoiceModel>();
+
+            ChangeInvoicePaymentStatusCommand = new DelegateCommand(
+                executeMethod: async () => await ChangeInvoicePaymentStatus(),
+                canExecuteMethod: () => !IsLoading && SelectedInvoice != null
+                )
+                .ObservesProperty(() => IsLoading)
+                .ObservesProperty(() => SelectedInvoice);
 
             DeleteInvoiceCommand = new DelegateCommand(
                 executeMethod: async () => await DeleteInvoice(),
@@ -193,6 +198,32 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
             object? thisView = _regionManager.Regions[RegionNames.MainRegion].ActiveViews.First();
             _navigationJournal!.GoBack();
             _regionManager.Regions[RegionNames.MainRegion].Remove(thisView);
+        }
+
+        private async Task ChangeInvoicePaymentStatus()
+        {
+            try
+            {
+                IsLoading = true;
+                Errors.Clear();
+
+                await _invoicesProvider
+                    .ChangeInvoicePaymentStatus(SelectedInvoice!.Id);
+
+                await GetLastTenInvoices();
+            }
+            catch (ExpectedServerErrorsException ex)
+            {
+                Errors.AddRange(ex.Errors);
+            }
+            catch (Exception)
+            {
+                Errors.Add("An unexpected error ocurred. Please try again.");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         private async Task DeleteInvoice()

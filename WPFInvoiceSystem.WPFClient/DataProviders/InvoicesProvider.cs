@@ -18,6 +18,17 @@ namespace WPFInvoiceSystem.WPFClient.DataProviders
         {
         }
 
+        public async Task ChangeInvoicePaymentStatus(int id)
+        {
+            await ExecuteWithErrorHandling(async () =>
+            {
+                await _httpClient
+                   .Get(AppConstants.DefaultHttpClientName)
+                   .Request(_apiEndpoint, "change-payment-status", id)
+                   .PatchAsync();
+            });
+        }
+
         public async Task<IEnumerable<InvoiceModel>> Find(InvoicesFilterResource filter)
         {
             return await ExecuteWithErrorHandling<IEnumerable<InvoiceModel>>(async () =>
