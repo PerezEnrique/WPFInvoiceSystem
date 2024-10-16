@@ -10,6 +10,7 @@ namespace WPFInvoiceSystem.API.Mapping
         {
             CreateMap<CustomerDto, CustomerResource>();
             CreateMap<CustomerInputResource, CustomerInputDto>();
+            CreateMap<DateRangeFilterResource, DateRangeFilterDto>();
             CreateMap<InvoiceDto, InvoiceResource>();
             CreateMap<InvoicesFilterResource, InvoicesFilterDto>();
             CreateMap<InvoiceInputResource, InvoiceInputDto>();

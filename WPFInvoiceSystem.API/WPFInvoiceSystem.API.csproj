@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WPFInvoiceSystem.Application\WPFInvoiceSystem.Application.csproj" />
     <ProjectReference Include="..\WPFInvoiceSystem.Persistance\WPFInvoiceSystem.Persistance.csproj" />
+    <ProjectReference Include="..\WPFInvoiceSystem.ReportsGenerator\WPFInvoiceSystem.ReportsGenerator.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using WPFInvoiceSystem.API.ErrorHandling;
 using WPFInvoiceSystem.API.Mapping;
+using WPFInvoiceSystem.Application.Abstractions;
 using WPFInvoiceSystem.Application.Services;
 using WPFInvoiceSystem.Domain;
 using WPFInvoiceSystem.Persistance;
+using WPFInvoiceSystem.ReportsGenerator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
             Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             "WPFInvoiceSystem.db"));
 });
+builder.Services.AddScoped<IInvoicesReportGenerator, InvoiceReport>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 builder.Services.AddScoped<CustomersService>();
@@ -34,6 +37,7 @@ builder.Services.AddScoped<InvoicesService>((serviceProvider) =>
 
     return new InvoicesService(unitOfWork, taxRate);
 });
+builder.Services.AddScoped<ReportsService>();
 builder.Services.AddScoped<ServicesService>();
 builder.Services.AddScoped<ServiceTypesService>();
 
