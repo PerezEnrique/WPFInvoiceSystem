@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFInvoiceSystem", "WPFInvoiceSystem\WPFInvoiceSystem.csproj", "{FB054C07-B116-4B16-A626-1A90256913F0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFInvoiceSystem.Domain", "WPFInvoiceSystem.Domain\WPFInvoiceSystem.Domain.csproj", "{25F9C91F-3D81-4538-A4C3-0C7CE3F4F19F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFInvoiceSystem.Application", "WPFInvoiceSystem.Application\WPFInvoiceSystem.Application.csproj", "{19A2251D-57DD-4E68-9DDA-CCA5D653553A}"
@@ -15,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFInvoiceSystem.API", "WPF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFInvoiceSystem.WPFClient", "WPFInvoiceSystem.WPFClient\WPFInvoiceSystem.WPFClient.csproj", "{53FC6827-BFDB-4A9A-AC2B-0E130F94079B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFInvoiceSystem.ReportsGenerator", "WPFInvoiceSystem.ReportsGenerator\WPFInvoiceSystem.ReportsGenerator.csproj", "{AFB80073-0DD4-4DCA-8826-B3321ECF4993}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFInvoiceSystem.ReportsGenerator", "WPFInvoiceSystem.ReportsGenerator\WPFInvoiceSystem.ReportsGenerator.csproj", "{AFB80073-0DD4-4DCA-8826-B3321ECF4993}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,26 +29,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|ARM.Build.0 = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|x64.Build.0 = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Debug|x86.Build.0 = Debug|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|ARM.ActiveCfg = Release|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|ARM.Build.0 = Release|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|ARM64.Build.0 = Release|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|x64.ActiveCfg = Release|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|x64.Build.0 = Release|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|x86.ActiveCfg = Release|Any CPU
-		{FB054C07-B116-4B16-A626-1A90256913F0}.Release|x86.Build.0 = Release|Any CPU
 		{25F9C91F-3D81-4538-A4C3-0C7CE3F4F19F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{25F9C91F-3D81-4538-A4C3-0C7CE3F4F19F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25F9C91F-3D81-4538-A4C3-0C7CE3F4F19F}.Debug|ARM.ActiveCfg = Debug|Any CPU
