@@ -187,10 +187,16 @@
 
             <components:LoadingSpinner />
 
-            <Button
-                HorizontalAlignment="Left"
-                Command="{Binding GoBackCommand}"
-                Content="Go back" />
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+
+                <Button
+                    Margin="0,0,10,0"
+                    Command="{Binding GoBackCommand}"
+                    Content="Go back" />
+
+                <Button Command="{Binding PrintInvoicesReportCommand}" Content="Print invoices report" />
+
+            </StackPanel>
 
         </StackPanel>
 

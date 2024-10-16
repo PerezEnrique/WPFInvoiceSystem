@@ -19,11 +19,11 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
 {
     public class InvoicesViewModel : BindableBase, INavigationAware
     {
-
         private readonly ICustomersProvider _customersProvider;
         private readonly CustomerSearchPerformedEvent _customerSearchPerformedEvent;
         private readonly IInvoicesProvider _invoicesProvider;
         private readonly IRegionManager _regionManager;
+        private readonly IReportsProvider _reportsProvider;
         private SubscriptionToken? _customerSearchPerformedEventToken;
         private IRegionNavigationJournal? _navigationJournal;
         public ObservableCollection<string> Errors { get; }
@@ -84,11 +84,13 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
         public DelegateCommand GoToInvoiceCreationFormCommand { get; }
         public DelegateCommand GoToInvoiceModificationFormCommand { get; }
         public DelegateCommand GoToCustomerSearchCommand { get; set; }
+        public DelegateCommand PrintInvoicesReportCommand { get; set; }
         public DelegateCommand QueryWithFilterCommand { get; set; }
 
         public InvoicesViewModel(
             IInvoicesProvider internalInvoicesDataService,
             ICustomersProvider customersDataService,
+            IReportsProvider reportsProvider,
             IRegionManager regionManager,
             IEventAggregator eventAggregator
             )
@@ -98,6 +100,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
             _filterToDate = DateTime.Now;
             _invoicesProvider = internalInvoicesDataService;
             _regionManager = regionManager;
+            _reportsProvider = reportsProvider;
 
             Errors = new ObservableCollection<string>();
             Invoices = new ObservableCollection<InvoiceModel>();
@@ -130,6 +133,13 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
                 .ObservesProperty(() => SelectedInvoice);
 
             GoToCustomerSearchCommand = new DelegateCommand(GoToCustomerSearch);
+
+            PrintInvoicesReportCommand = new DelegateCommand(
+                executeMethod: async () => await PrintInvoicesReport(),
+                canExecuteMethod: () => !IsLoading && FilteringByDateIsEnable
+                )
+                .ObservesProperty(() => IsLoading)
+                .ObservesProperty(() => FilteringByDateIsEnable);
 
             QueryWithFilterCommand = new DelegateCommand(
                 executeMethod: async () => await QueryWithFilter(),
@@ -289,6 +299,41 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
                 IsLoading = true;
                 CustomerToFilterFor = await _customersProvider.Get(customerId);
                 QueryWithFilterCommand.Execute();
+            }
+            catch (ExpectedServerErrorsException ex)
+            {
+                Errors.AddRange(ex.Errors);
+            }
+            catch (Exception)
+            {
+                Errors.Add("An unexpected error ocurred. Please try again.");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task PrintInvoicesReport()
+        {
+            try
+            {
+                Errors.Clear();
+                IsLoading = true;
+
+                if (FilterFromDate > FilterToDate)
+                    throw new ClientValidationException("FromDate cannot be greater than ToDate");
+
+                if (FilterFromDate == FilterToDate)
+                    FilterToDate = FilterToDate.AddDays(1);
+
+                var dateRangeFilterResource = new DateRangeFilterResource(
+                    FromDate: FilterFromDate,
+                    ToDate: FilterToDate
+                    );
+
+                await _reportsProvider
+                    .RequestInvoicesReport(dateRangeFilterResource);
             }
             catch (ExpectedServerErrorsException ex)
             {

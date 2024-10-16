@@ -33,6 +33,7 @@ namespace WPFInvoiceSystem.WPFClient
             //Rest of services
             containerRegistry.Register<ICustomersProvider, CustomersProvider>();
             containerRegistry.Register<IInvoicesProvider, InvoicesProvider>();
+            containerRegistry.Register<IReportsProvider, ReportsProvider>();
             containerRegistry.Register<IServicesProvider, ServicesProvider>();
             containerRegistry.Register<IServiceTypesProvider, ServiceTypesProvider>();
             containerRegistry.RegisterForNavigation<CustomersFormView>(name: ViewNames.CustomersFormView);
