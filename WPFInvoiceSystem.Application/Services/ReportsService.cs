@@ -21,6 +21,8 @@ namespace WPFInvoiceSystem.Application.Services
 
         public async Task<byte[]> GenerateInvoicesReport(DateRangeFilterDto filter)
         {
+            filter.Validate();
+
             var invoiceFilterDto = new InvoicesFilterDto(
                 filter.FromDate,
                 filter.ToDate,

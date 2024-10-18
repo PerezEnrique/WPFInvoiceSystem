@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using WPFInvoiceSystem.API.ApiResources;
 using WPFInvoiceSystem.Application.Dtos;
 using WPFInvoiceSystem.Application.Services;
 
@@ -19,7 +20,7 @@ namespace WPFInvoiceSystem.API.Controllers
 
 
         [HttpGet("invoices")]
-        public async Task<IActionResult> GetIncomeByServiceReport([FromQuery] DateRangeFilterDto filter)
+        public async Task<IActionResult> GetIncomeByServiceReport([FromQuery] DateRangeFilterResource filter)
         {
             DateRangeFilterDto filterDto = _mapper.Map<DateRangeFilterDto>(filter);
 
