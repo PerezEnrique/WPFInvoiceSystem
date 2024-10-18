@@ -82,6 +82,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
         public DelegateCommand DeleteInvoiceCommand { get; }
         public DelegateCommand GoBackCommand { get; }
         public DelegateCommand GoToInvoiceCreationFormCommand { get; }
+        public DelegateCommand GoToInvoiceDetailsCommand { get; }
         public DelegateCommand GoToInvoiceModificationFormCommand { get; }
         public DelegateCommand GoToCustomerSearchCommand { get; set; }
         public DelegateCommand PrintInvoicesReportCommand { get; set; }
@@ -124,6 +125,13 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
             GoToInvoiceCreationFormCommand = new DelegateCommand(
                 executeMethod: () => GoToInvoiceForm(ActionsOnSubmit.Create)
                 );
+
+            GoToInvoiceDetailsCommand = new DelegateCommand(
+                executeMethod: GoToInvoiceDetails,
+                canExecuteMethod: () => !IsLoading && SelectedInvoice != null
+                )
+                .ObservesProperty(() => IsLoading)
+                .ObservesProperty(() => SelectedInvoice);
 
             GoToInvoiceModificationFormCommand = new DelegateCommand(
                 executeMethod: () => GoToInvoiceForm(ActionsOnSubmit.Update),
@@ -260,6 +268,20 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        private void GoToInvoiceDetails()
+        {
+            var navigationParams = new NavigationParameters
+            {
+                { NavigationParamKeys.ItemId, SelectedInvoice!.Id }
+            };
+
+            _regionManager.RequestNavigate(
+                RegionNames.MainRegion,
+                ViewNames.InvoiceDetailsView,
+                navigationParams
+                );
         }
 
         private void GoToInvoiceForm(ActionsOnSubmit actionOnSubmit)

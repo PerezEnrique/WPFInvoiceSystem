@@ -5,6 +5,7 @@
         public const string CustomersFormView = nameof(CustomersFormView);
         public const string CustomersSearchView = nameof(CustomersSearchView);
         public const string HomeView = nameof(HomeView);
+        public const string InvoiceDetailsView = nameof(InvoiceDetailsView);
         public const string InvoicesFormView = nameof(InvoicesFormView);
         public const string InvoicesView = nameof(InvoicesView);
         public const string ServicesFormView = nameof(ServicesFormView);
