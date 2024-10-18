@@ -34,4 +34,11 @@
         <Setter Property="Height" Value="150" />
     </Style>
 
+    <Style TargetType="{x:Type GridViewColumnHeader}">
+        <Setter Property="Background" Value="BlueViolet" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
 </ResourceDictionary>

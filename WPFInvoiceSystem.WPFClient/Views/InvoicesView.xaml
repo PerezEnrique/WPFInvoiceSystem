@@ -93,6 +93,7 @@
                             Grid.Column="0"
                             MinWidth="600"
                             Margin="0,0,0,20"
+                            BorderBrush="LightBlue"
                             ItemsSource="{Binding Invoices}"
                             SelectedItem="{Binding SelectedInvoice}">
                             <ListView.View>
