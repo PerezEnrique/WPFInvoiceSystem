@@ -1,0 +1,214 @@
+﻿<UserControl
+    x:Class="WPFInvoiceSystem.WPFClient.Views.InvoicesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="clr-namespace:WPFInvoiceSystem.WPFClient.Components"
+    xmlns:converters="clr-namespace:WPFInvoiceSystem.WPFClient.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WPFInvoiceSystem.WPFClient.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:BooleanToYesOrNoConverter x:Key="BooleanToYesNo" />
+        <converters:ListContentToReadableConverter x:Key="ListContentToReadable" />
+    </UserControl.Resources>
+    <DockPanel MaxWidth="1450">
+
+        <StackPanel DockPanel.Dock="Top">
+
+            <TextBlock Style="{StaticResource TitleStyle}" Text="Invoices" />
+
+            <GroupBox
+                Margin="0,0,0,10"
+                Padding="20,5"
+                HorizontalAlignment="Left"
+                Header="Filter invoices">
+
+                <StackPanel>
+
+                    <components:DateRangeFilter Margin="0,0,0,10" />
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <Button
+                                Margin="0,0,10,0"
+                                Command="{Binding GoToCustomerSearchCommand}"
+                                Content="Filter by customer" />
+
+                            <TextBlock
+                                Width="520"
+                                Margin="0,0,20,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding CustomerToFilterFor.Name, StringFormat='Customer to filter by: {0}'}" />
+
+                        </StackPanel>
+
+                        <Button
+                            HorizontalAlignment="Right"
+                            Command="{Binding QueryWithFilterCommand}"
+                            Content="Filter" />
+
+                    </StackPanel>
+
+                </StackPanel>
+
+            </GroupBox>
+
+            <ScrollViewer MaxHeight="400" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+                <StackPanel>
+
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            Margin="0,0,0,10"
+                            Text="{Binding ListCurrentlyShowing, Converter={StaticResource ListContentToReadable}, StringFormat='Currently showing {0}'}" />
+
+                        <ListView
+                            Grid.Row="1"
+                            Grid.RowSpan="6"
+                            Grid.Column="0"
+                            MinWidth="600"
+                            Margin="0,0,0,20"
+                            BorderBrush="LightBlue"
+                            ItemsSource="{Binding Invoices}"
+                            SelectedItem="{Binding SelectedInvoice}">
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn Header="Invoice number">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock HorizontalAlignment="Center" Text="{Binding InvoiceNumber}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn DisplayMemberBinding="{Binding Date, StringFormat=d}" Header="Date" />
+
+                                    <GridViewColumn Header="Identity card">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock HorizontalAlignment="Center" Text="{Binding Customer.IdentityCard}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width="250" Header="Customer">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock HorizontalAlignment="Center" Text="{Binding Customer.Name}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn DisplayMemberBinding="{Binding IsPaid, Converter={StaticResource BooleanToYesNo}}" Header="Payment status" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="0,0,0,20"
+                            VerticalAlignment="Center"
+                            Command="{Binding GoToInvoiceCreationFormCommand}"
+                            Content="Create" />
+
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Margin="0,0,0,20"
+                            VerticalAlignment="Center"
+                            Command="{Binding GoToInvoiceModificationFormCommand}"
+                            Content="Modify" />
+
+                        <Button
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Margin="0,0,0,20"
+                            VerticalAlignment="Center"
+                            Command="{Binding GoToInvoiceDetailsCommand}"
+                            Content="See invoice details" />
+
+                        <Button
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Margin="0,0,0,20"
+                            VerticalAlignment="Center"
+                            Command="{Binding ChangeInvoicePaymentStatusCommand}"
+                            Content="Change payment status" />
+
+                        <Button
+                            Grid.Row="5"
+                            Grid.Column="2"
+                            Margin="0,0,0,20"
+                            VerticalAlignment="Center"
+                            Click="Delete_Button_Click"
+                            Content="Delete">
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedInvoice}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                    </Grid>
+
+                    <components:ErrorsList />
+
+                </StackPanel>
+
+            </ScrollViewer>
+
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+
+            <components:LoadingSpinner />
+
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+
+                <Button
+                    Margin="0,0,10,0"
+                    Command="{Binding GoBackCommand}"
+                    Content="Go back" />
+
+                <Button Command="{Binding PrintInvoicesReportCommand}" Content="Print invoices report" />
+
+            </StackPanel>
+
+        </StackPanel>
+
+    </DockPanel>
+</UserControl>

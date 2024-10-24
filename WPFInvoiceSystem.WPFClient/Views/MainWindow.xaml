@@ -1,0 +1,19 @@
+﻿<Window
+    x:Class="WPFInvoiceSystem.WPFClient.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="clr-namespace:WPFInvoiceSystem.WPFClient.Components"
+    xmlns:constants="clr-namespace:WPFInvoiceSystem.WPFClient.Utils.Constants"
+    xmlns:prism="http://prismlibrary.com/"
+    Title="{Binding Title}"
+    MinWidth="1200"
+    MinHeight="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    FontSize="16">
+    <DockPanel Margin="20">
+
+        <components:MainHeader Margin="0,0,0,20" DockPanel.Dock="Top" />
+
+        <ContentControl Margin="50,0" prism:RegionManager.RegionName="{x:Static constants:RegionNames.MainRegion}" />
+    </DockPanel>
+</Window>
