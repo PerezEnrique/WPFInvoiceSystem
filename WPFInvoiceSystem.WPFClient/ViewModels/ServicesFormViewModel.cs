@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using WPFInvoiceSystem.API.ApiResources;
 using WPFInvoiceSystem.WPFClient.Abstractions;
+using WPFInvoiceSystem.WPFClient.ApiModels;
 using WPFInvoiceSystem.WPFClient.Exceptions;
 using WPFInvoiceSystem.WPFClient.Models;
 using WPFInvoiceSystem.WPFClient.Utils.Constants;
@@ -164,7 +164,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
                 IsLoading = true;
                 Errors.Clear();
 
-                var serviceData = new ServiceInputResource(
+                var serviceData = new ServiceInputAPIModel(
                         Name,
                         Price,
                         SelectedType!.Id,

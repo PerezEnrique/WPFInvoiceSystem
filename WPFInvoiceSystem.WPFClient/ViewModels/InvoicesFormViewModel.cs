@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using WPFInvoiceSystem.API.ApiResources;
 using WPFInvoiceSystem.WPFClient.Abstractions;
+using WPFInvoiceSystem.WPFClient.ApiModels;
 using WPFInvoiceSystem.WPFClient.Events;
 using WPFInvoiceSystem.WPFClient.Exceptions;
 using WPFInvoiceSystem.WPFClient.Models;
@@ -397,17 +397,17 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
                 IsLoading = true;
                 Errors.Clear();
 
-                IEnumerable<InvoiceServiceInputResource> servicesData = InvoiceServices
+                IEnumerable<InvoiceServiceInputAPIModel> servicesData = InvoiceServices
                     .Select(invoiceService =>
                     {
-                        return new InvoiceServiceInputResource
+                        return new InvoiceServiceInputAPIModel
                         (
                             ServiceId: invoiceService.Service.Id,
                             Quantity: invoiceService.Quantity
                         );
                     });
 
-                var invoiceData = new InvoiceInputResource
+                var invoiceData = new InvoiceInputAPIModel
                 (
                     Date,
                     InvoiceNumber,

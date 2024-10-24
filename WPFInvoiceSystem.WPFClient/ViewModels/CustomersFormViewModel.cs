@@ -6,8 +6,8 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using WPFInvoiceSystem.API.ApiResources;
 using WPFInvoiceSystem.WPFClient.Abstractions;
+using WPFInvoiceSystem.WPFClient.ApiModels;
 using WPFInvoiceSystem.WPFClient.Events;
 using WPFInvoiceSystem.WPFClient.Exceptions;
 using WPFInvoiceSystem.WPFClient.Models;
@@ -162,7 +162,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
                 IsLoading = true;
                 Errors.Clear();
 
-                var customerData = new CustomerInputResource(
+                var customerData = new CustomerInputAPIModel(
                     Name,
                     IdentityCard,
                     Phone,

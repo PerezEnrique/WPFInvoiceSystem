@@ -2,7 +2,6 @@
 using Flurl.Http.Configuration;
 using System;
 using System.Threading.Tasks;
-using WPFInvoiceSystem.API.ApiResources;
 using WPFInvoiceSystem.WPFClient.Abstractions;
 using WPFInvoiceSystem.WPFClient.ApiModels;
 using WPFInvoiceSystem.WPFClient.Exceptions;
@@ -21,7 +20,7 @@ namespace WPFInvoiceSystem.WPFClient.DataProviders
             _httpClient = httpClient;
         }
 
-        public async Task RequestInvoicesReport(DateRangeFilterResource filter)
+        public async Task RequestInvoicesReport(DateRangeFilterAPIModel filter)
         {
             try
             {

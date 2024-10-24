@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using WPFInvoiceSystem.API.ApiResources;
+using WPFInvoiceSystem.WPFClient.ApiModels;
 
 namespace WPFInvoiceSystem.WPFClient.Abstractions
 {
     public interface IReportsProvider
     {
-        Task RequestInvoicesReport(DateRangeFilterResource filter);
+        Task RequestInvoicesReport(DateRangeFilterAPIModel filter);
     }
 }

@@ -2,15 +2,15 @@
 using Flurl.Http.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WPFInvoiceSystem.API.ApiResources;
 using WPFInvoiceSystem.WPFClient.Abstractions;
+using WPFInvoiceSystem.WPFClient.ApiModels;
 using WPFInvoiceSystem.WPFClient.Models;
 using WPFInvoiceSystem.WPFClient.Utils.Constants;
 
 namespace WPFInvoiceSystem.WPFClient.DataProviders
 {
     public class InvoicesProvider :
-        DataProviderBase<InvoiceModel, InvoiceInputResource>,
+        DataProviderBase<InvoiceModel, InvoiceInputAPIModel>,
         IInvoicesProvider
     {
         public InvoicesProvider(IFlurlClientCache httpClient)
@@ -29,7 +29,7 @@ namespace WPFInvoiceSystem.WPFClient.DataProviders
             });
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Find(InvoicesFilterResource filter)
+        public async Task<IEnumerable<InvoiceModel>> Find(InvoicesFilterAPIModel filter)
         {
             return await ExecuteWithErrorHandling<IEnumerable<InvoiceModel>>(async () =>
             {

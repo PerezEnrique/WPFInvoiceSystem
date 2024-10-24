@@ -2,15 +2,15 @@
 using Flurl.Http.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WPFInvoiceSystem.API.ApiResources;
 using WPFInvoiceSystem.WPFClient.Abstractions;
+using WPFInvoiceSystem.WPFClient.ApiModels;
 using WPFInvoiceSystem.WPFClient.Models;
 using WPFInvoiceSystem.WPFClient.Utils.Constants;
 
 namespace WPFInvoiceSystem.WPFClient.DataProviders
 {
     public class CustomersProvider :
-        DataProviderBase<CustomerModel, CustomerInputResource>,
+        DataProviderBase<CustomerModel, CustomerInputAPIModel>,
         ICustomersProvider
     {
         public CustomersProvider(IFlurlClientCache httpClient) 

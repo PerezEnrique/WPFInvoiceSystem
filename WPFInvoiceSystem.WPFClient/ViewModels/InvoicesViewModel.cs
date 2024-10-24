@@ -13,7 +13,7 @@ using WPFInvoiceSystem.WPFClient.Exceptions;
 using WPFInvoiceSystem.WPFClient.Models;
 using WPFInvoiceSystem.WPFClient.Utils.Constants;
 using WPFInvoiceSystem.WPFClient.Utils.Enums;
-using WPFInvoiceSystem.API.ApiResources;
+using WPFInvoiceSystem.WPFClient.ApiModels;
 
 namespace WPFInvoiceSystem.WPFClient.ViewModels
 {
@@ -349,13 +349,13 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
                 if (FilterFromDate == FilterToDate)
                     FilterToDate = FilterToDate.AddDays(1);
 
-                var dateRangeFilterResource = new DateRangeFilterResource(
+                var dateRangeFilter = new DateRangeFilterAPIModel(
                     FromDate: FilterFromDate,
                     ToDate: FilterToDate
                     );
 
                 await _reportsProvider
-                    .RequestInvoicesReport(dateRangeFilterResource);
+                    .RequestInvoicesReport(dateRangeFilter);
             }
             catch (ExpectedServerErrorsException ex)
             {
@@ -384,7 +384,7 @@ namespace WPFInvoiceSystem.WPFClient.ViewModels
                 if (FilterFromDate == FilterToDate)
                     FilterToDate = FilterToDate.AddDays(1);
 
-                var internalInvoicesFilter = new InvoicesFilterResource
+                var internalInvoicesFilter = new InvoicesFilterAPIModel
                     (
                         FromDate: FilteringByDateIsEnable ? FilterFromDate : null,
                         ToDate: FilteringByDateIsEnable ? FilterToDate : null,
