@@ -19,10 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     .Configuration
     .GetConnectionString("default");
 
-    options.UseSqlite(
-        connectionString: "Filename=" + Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-            "WPFInvoiceSystem.db"));
+    options.UseSqlite(connectionString);
 });
 builder.Services.AddScoped<IInvoicesReportGenerator, InvoiceReport>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -47,6 +44,14 @@ var app = builder.Build();
 if(app.Environment.IsProduction())
 {
     app.UseHttpsRedirection();
+}
+
+/*This approach of applying migrations is not recommended for production
+ however it's safe for our simple use case*/
+if(app.Environment.IsProduction())
+{
+    AppDbContext dbContext = app.Services.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
 }
 
 app.UseExceptionHandler();

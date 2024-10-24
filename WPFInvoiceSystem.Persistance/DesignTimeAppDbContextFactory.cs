@@ -9,9 +9,7 @@ namespace WPFInvoiceSystem.Persistance
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            optionsBuilder.UseSqlite(connectionString: "Filename=" + Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-            "WPFInvoiceSystem.db"));
+            optionsBuilder.UseSqlite(connectionString: "Filename=WPFInvocieSystem.db");
 
             return new AppDbContext(optionsBuilder.Options);
         }
