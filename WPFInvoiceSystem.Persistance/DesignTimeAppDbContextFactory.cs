@@ -9,7 +9,7 @@ namespace WPFInvoiceSystem.Persistance
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            optionsBuilder.UseSqlite(connectionString: "Filename=WPFInvocieSystem.db");
+            optionsBuilder.UseSqlite(connectionString: "Filename=../WPFInvoiceSystem.API/WPFInvocieSystem.db");
 
             return new AppDbContext(optionsBuilder.Options);
         }
