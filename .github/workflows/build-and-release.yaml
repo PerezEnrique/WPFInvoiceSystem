@@ -5,7 +5,7 @@ on:
     tags:
       - "v*.*.*"
 env:
-  PROJECT_PATH: WPFInvoiceSystem/WPFInvoiceSystem.WPFClient/WPFInvoiceSystem.WPFClient.csproj
+  PROJECT_PATH: WPFInvoiceSystem.WPFClient/WPFInvoiceSystem.WPFClient.csproj
 
 jobs:
   build-and-release:
