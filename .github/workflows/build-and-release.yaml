@@ -1,0 +1,32 @@
+name: "Build and Release"
+
+on: 
+  push:
+    tags:
+      - "v*.*.*"
+env:
+  PROJECT_PATH: WPFInvoiceSystem/WPFInvoiceSystem.WPFClient/WPFInvoiceSystem.WPFClient.csproj
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet and publish
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained
+      
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            */bin/Release/net8.0-windows10.0.22621.0/win-x64/WPFInvoiceSystem.WPFClient.exe
+            */bin/Release/net8.0-windows10.0.22621.0/win-x64/appsettings.json
+  
