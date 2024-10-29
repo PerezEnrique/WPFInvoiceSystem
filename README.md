@@ -1,6 +1,6 @@
 # WPF Invoice System
 
-![Image of the project](https://i.imgur.com/Pz7V8OO.png)
+![Image of the project](https://i.imgur.com/A4Fm2U2.png)
 
 ---
 
