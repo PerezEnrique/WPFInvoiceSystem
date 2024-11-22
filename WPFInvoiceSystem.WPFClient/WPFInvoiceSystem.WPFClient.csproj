@@ -2,12 +2,19 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
 	  <Nullable>enable</Nullable>
-	  <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+	  <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+	  <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
+	  <PublishSingleFile>true</PublishSingleFile>
+	  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\wpf-invoice-system-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Resources\Gifs\loading-spinner.gif" />
     <None Remove="Resources\Images\logo-demo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\wpf-invoice-system-icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="4.0.2" />
