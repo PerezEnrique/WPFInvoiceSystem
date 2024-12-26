@@ -91,6 +91,11 @@ namespace WPFInvoiceSystem.Application.Services
             Invoice invoice = await GetInvoiceAsEntity(id);
 
             invoice.Date = invoiceData.Date;
+
+            if (invoice.InvoiceNumber != invoiceData.InvoiceNumber)
+            {
+                await EnsureInvoiceNumberIsNotRegisteredAlready(invoiceData.InvoiceNumber);
+            }
             invoice.InvoiceNumber = invoiceData.InvoiceNumber;
 
             if (invoiceData.CustomerId != invoice.Customer.Id)
