@@ -8,7 +8,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <StackPanel Orientation="Horizontal">
+    <StackPanel>
 
         <StackPanel Margin="0,0,10,0" Orientation="Horizontal">
 
@@ -21,31 +21,24 @@
 
         </StackPanel>
 
-        <StackPanel Margin="0,0,10,0" Orientation="Horizontal">
 
-            <Label
-                Margin="0,0,5,0"
-                VerticalAlignment="Center"
-                Content="Initial date:" />
-            <DatePicker
-                VerticalAlignment="Center"
-                IsEnabled="{Binding FilteringByDateIsEnable}"
-                SelectedDate="{Binding FilterFromDate}" />
+        <Label
+            Margin="0,0,5,0"
+            VerticalAlignment="Center"
+            Content="Initial date:" />
+        <DatePicker
+            VerticalAlignment="Center"
+            IsEnabled="{Binding FilteringByDateIsEnable}"
+            SelectedDate="{Binding FilterFromDate}" />
 
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal">
-
-            <Label
-                Margin="0,0,5,0"
-                VerticalAlignment="Center"
-                Content="Final date:" />
-            <DatePicker
-                VerticalAlignment="Center"
-                IsEnabled="{Binding FilteringByDateIsEnable}"
-                SelectedDate="{Binding FilterToDate}" />
-
-        </StackPanel>
+        <Label
+            Margin="0,0,5,0"
+            VerticalAlignment="Center"
+            Content="Final date:" />
+        <DatePicker
+            VerticalAlignment="Center"
+            IsEnabled="{Binding FilteringByDateIsEnable}"
+            SelectedDate="{Binding FilterToDate}" />
 
     </StackPanel>
 </UserControl>
