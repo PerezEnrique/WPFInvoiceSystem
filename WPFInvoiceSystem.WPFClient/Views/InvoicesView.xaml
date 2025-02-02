@@ -48,6 +48,7 @@
                             <TextBlock Margin="0,0,0,10" Text="{Binding ListCurrentlyShowing, Converter={StaticResource ListContentToReadable}, StringFormat='Currently showing {0}'}" />
 
                             <ListView
+                                Height="325"
                                 MinWidth="600"
                                 Margin="0,0,0,20"
                                 BorderBrush="LightBlue"
